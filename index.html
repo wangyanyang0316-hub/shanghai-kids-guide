@@ -246,42 +246,6 @@ body {
 }
 .sort-btn:hover { background: var(--bg-hover); }
 
-/* Hero banner */
-.hero-banner {
-  width: 100%; height: 220px; border-radius: var(--radius);
-  overflow: hidden; margin-bottom: 16px; position: relative;
-  background: var(--bg-cream);
-}
-.hero-banner img {
-  width: 100%; height: 100%; object-fit: cover;
-  display: block;
-}
-.hero-banner .hero-overlay {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 20px 24px;
-  background: linear-gradient(transparent, rgba(61,48,36,0.55));
-  color: #fff;
-}
-.hero-banner .hero-title {
-  font-size: 20px; font-weight: 700; margin-bottom: 4px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-.hero-banner .hero-subtitle {
-  font-size: 12px; opacity: 0.92;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-/* Card thumbnail */
-.card-thumb {
-  width: calc(100% + 28px); height: 130px;
-  object-fit: cover; margin: -14px -14px 10px -14px;
-  border-radius: var(--radius) var(--radius) 0 0;
-  display: block; transition: transform 0.3s ease;
-}
-.venue-card:hover .card-thumb {
-  transform: scale(1.03);
-}
-
 /* Masonry layout */
 .masonry {
   columns: 2; column-gap: 14px;
@@ -615,13 +579,6 @@ body {
   </aside>
 
   <main class="main" id="mainContent">
-    <div class="hero-banner">
-      <img src="assets/images/hero-banner.jpg" alt="遛娃小脚印 - 上海亲子活动指南" loading="eager">
-      <div class="hero-overlay">
-        <div class="hero-title">👣 遛娃小脚印 · 上海亲子活动指南</div>
-        <div class="hero-subtitle">198个真实场馆 · 暑假活动每日更新 · 老母亲真实点评</div>
-      </div>
-    </div>
     <div class="result-header">
       <div class="result-title">📍 遛娃推荐<span class="result-count" id="resultCount"></span></div>
       <div style="display:flex;gap:6px">
@@ -3177,20 +3134,6 @@ function renderMasonry(venues) {
   });
 }
 
-// Category thumbnail images (AI-generated, copyright-free)
-const CATEGORY_IMAGES = {
-  'theme_park': 'assets/images/cat-theme_park.jpg',
-  'museum': 'assets/images/cat-museum.jpg',
-  'zoo_aquarium': 'assets/images/cat-zoo_aquarium.jpg',
-  'park': 'assets/images/cat-park.jpg',
-  'water': 'assets/images/cat-water.jpg',
-  'cultural': 'assets/images/cat-cultural.jpg',
-  'outdoor': 'assets/images/cat-park.jpg',
-  'indoor_play': 'assets/images/cat-museum.jpg',
-  'library': 'assets/images/cat-museum.jpg',
-  'waterfront': 'assets/images/cat-water.jpg',
-};
-
 function renderVenueCard(v) {
   const cat = CATEGORIES[v.category] || { name: '其他', color: '#999' };
   const inItin = state.itinerary.includes(v.id);
@@ -3242,12 +3185,8 @@ function renderVenueCard(v) {
     }
   }
 
-  const thumbUrl = CATEGORY_IMAGES[v.category] || '';
-  const thumbHtml = thumbUrl ? '<img class="card-thumb" src="' + thumbUrl + '" alt="' + v.name + '" loading="lazy">' : '';
-
   return '<div class="venue-card" data-vid="' + v.id + '" onclick="openModal(' + v.id + ')">' +
     '<div class="card-add-btn ' + (inItin ? 'in-itinerary' : '') + '" title="' + (inItin ? '从路线移除' : '加入路线') + '">' + (inItin ? '✓' : '+') + '</div>' +
-    thumbHtml +
     '<div class="card-title">' + v.name + '</div>' +
     '<div class="card-tags">' + tagsHtml + '</div>' +
     '<div class="card-desc">' + (v.desc || '') + '</div>' +
@@ -3524,13 +3463,10 @@ function openModal(vid) {
 
   const inItin = state.itinerary.includes(v.id);
 
-  const modalThumb = CATEGORY_IMAGES[v.category] ? '<img src="' + CATEGORY_IMAGES[v.category] + '" alt="' + v.name + '" style="width:100%;height:200px;object-fit:cover;border-radius:var(--radius);margin-bottom:14px">' : '';
-
   const html =
     '<div class="modal-overlay" onclick="closeModal(event)">' +
       '<div class="modal" onclick="event.stopPropagation()">' +
         '<button class="close-btn" onclick="closeModal()">✕</button>' +
-        modalThumb +
         '<h2>' + v.name + '</h2>' +
         '<div class="card-tags" style="margin-bottom:10px">' +
           '<span class="tag tag-cat" style="background:' + cat.color + '20;color:' + cat.color + '90">' + cat.name + '</span>' +
