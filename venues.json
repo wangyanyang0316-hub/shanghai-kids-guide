@@ -4258,5 +4258,720 @@
         }
       ]
     }
-  ]
+  ],
+  "FEATURE_TAGS": [
+    {
+      "id": "tram_direct",
+      "name": "地铁直达",
+      "icon": "🚇"
+    },
+    {
+      "id": "big_lawn",
+      "name": "大草坪",
+      "icon": "🌿"
+    },
+    {
+      "id": "hidden_gem",
+      "name": "小众避风港",
+      "icon": "🤫"
+    },
+    {
+      "id": "pet_friendly",
+      "name": "宠物友好",
+      "icon": "🐕"
+    },
+    {
+      "id": "nursing_room",
+      "name": "有母婴室",
+      "icon": "🍼"
+    },
+    {
+      "id": "stroller",
+      "name": "推车友好",
+      "icon": "🚼"
+    },
+    {
+      "id": "rain_ok",
+      "name": "雨天避难",
+      "icon": "🏠"
+    },
+    {
+      "id": "air_con",
+      "name": "空调充足",
+      "icon": "❄️"
+    },
+    {
+      "id": "parking",
+      "name": "停车方便",
+      "icon": "🅿️"
+    },
+    {
+      "id": "photo",
+      "name": "出片圣地",
+      "icon": "📷"
+    },
+    {
+      "id": "food",
+      "name": "周边美食",
+      "icon": "🍜"
+    },
+    {
+      "id": "low_cost",
+      "name": "性价比高",
+      "icon": "💰"
+    },
+    {
+      "id": "crowd_warn",
+      "name": "周末人多⚠️",
+      "icon": "⚠️"
+    },
+    {
+      "id": "wheelchair",
+      "name": "无障碍",
+      "icon": "♿"
+    }
+  ],
+  "VENUE_EXTRA_TAGS": {
+    "1": [
+      "crowd_warn",
+      "photo",
+      "parking"
+    ],
+    "2": [
+      "parking",
+      "photo",
+      "crowd_warn",
+      "air_con"
+    ],
+    "3": [
+      "parking",
+      "crowd_warn",
+      "food"
+    ],
+    "4": [
+      "tram_direct",
+      "low_cost",
+      "crowd_warn"
+    ],
+    "5": [
+      "parking",
+      "photo",
+      "crowd_warn"
+    ],
+    "6": [
+      "tram_direct",
+      "air_con",
+      "nursing_room",
+      "wheelchair"
+    ],
+    "7": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "wheelchair"
+    ],
+    "8": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "food"
+    ],
+    "9": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "wheelchair"
+    ],
+    "10": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "photo"
+    ],
+    "11": [
+      "rain_ok",
+      "parking"
+    ],
+    "12": [
+      "tram_direct",
+      "rain_ok",
+      "hidden_gem"
+    ],
+    "13": [
+      "tram_direct",
+      "rain_ok",
+      "low_cost"
+    ],
+    "14": [
+      "parking",
+      "photo",
+      "crowd_warn",
+      "nursing_room"
+    ],
+    "15": [
+      "tram_direct",
+      "low_cost",
+      "crowd_warn"
+    ],
+    "16": [
+      "tram_direct",
+      "rain_ok",
+      "photo",
+      "crowd_warn"
+    ],
+    "17": [
+      "tram_direct",
+      "rain_ok",
+      "stroller"
+    ],
+    "18": [
+      "parking",
+      "crowd_warn",
+      "food"
+    ],
+    "19": [
+      "parking",
+      "rain_ok",
+      "air_con",
+      "stroller"
+    ],
+    "20": [
+      "tram_direct",
+      "food",
+      "photo"
+    ],
+    "21": [
+      "tram_direct",
+      "low_cost",
+      "hidden_gem"
+    ],
+    "22": [
+      "parking",
+      "big_lawn",
+      "stroller"
+    ],
+    "23": [
+      "tram_direct",
+      "big_lawn",
+      "low_cost"
+    ],
+    "24": [
+      "tram_direct",
+      "big_lawn",
+      "low_cost"
+    ],
+    "25": [
+      "tram_direct",
+      "big_lawn",
+      "pet_friendly"
+    ],
+    "26": [
+      "tram_direct",
+      "photo",
+      "crowd_warn"
+    ],
+    "27": [
+      "tram_direct",
+      "crowd_warn",
+      "parking"
+    ],
+    "28": [
+      "tram_direct",
+      "photo",
+      "low_cost"
+    ],
+    "29": [
+      "parking",
+      "big_lawn",
+      "stroller",
+      "pet_friendly"
+    ],
+    "30": [
+      "parking",
+      "big_lawn",
+      "pet_friendly"
+    ],
+    "31": [
+      "parking",
+      "hidden_gem"
+    ],
+    "32": [
+      "parking",
+      "hidden_gem",
+      "pet_friendly"
+    ],
+    "33": [
+      "parking",
+      "pet_friendly"
+    ],
+    "36": [
+      "tram_direct",
+      "rain_ok",
+      "photo",
+      "crowd_warn"
+    ],
+    "37": [
+      "tram_direct",
+      "rain_ok",
+      "parking"
+    ],
+    "38": [
+      "tram_direct",
+      "rain_ok",
+      "stroller",
+      "free"
+    ],
+    "39": [
+      "tram_direct",
+      "rain_ok",
+      "food",
+      "photo"
+    ],
+    "40": [
+      "tram_direct",
+      "rain_ok",
+      "parking",
+      "food"
+    ],
+    "41": [
+      "tram_direct",
+      "rain_ok",
+      "parking"
+    ],
+    "42": [
+      "tram_direct",
+      "rain_ok",
+      "stroller"
+    ],
+    "43": [
+      "tram_direct",
+      "rain_ok",
+      "stroller",
+      "parking"
+    ],
+    "44": [
+      "tram_direct",
+      "photo",
+      "hidden_gem"
+    ],
+    "45": [
+      "tram_direct",
+      "rain_ok",
+      "parking"
+    ],
+    "46": [
+      "tram_direct",
+      "rain_ok",
+      "food"
+    ],
+    "47": [
+      "tram_direct",
+      "stroller"
+    ],
+    "48": [
+      "tram_direct",
+      "rain_ok",
+      "food"
+    ],
+    "49": [
+      "tram_direct",
+      "rain_ok",
+      "low_cost"
+    ],
+    "50": [
+      "tram_direct",
+      "rain_ok",
+      "parking"
+    ],
+    "51": [
+      "tram_direct",
+      "rain_ok",
+      "stroller",
+      "wheelchair"
+    ],
+    "52": [
+      "tram_direct",
+      "rain_ok",
+      "hidden_gem"
+    ],
+    "53": [
+      "tram_direct",
+      "rain_ok"
+    ],
+    "54": [
+      "tram_direct",
+      "rain_ok",
+      "photo"
+    ],
+    "55": [
+      "tram_direct",
+      "rain_ok"
+    ],
+    "56": [
+      "tram_direct",
+      "rain_ok",
+      "hidden_gem"
+    ],
+    "57": [
+      "tram_direct",
+      "rain_ok"
+    ],
+    "58": [
+      "tram_direct",
+      "rain_ok",
+      "hidden_gem"
+    ],
+    "59": [
+      "tram_direct",
+      "rain_ok"
+    ],
+    "60": [
+      "tram_direct",
+      "rain_ok",
+      "stroller",
+      "nursing_room"
+    ],
+    "61": [
+      "tram_direct",
+      "rain_ok"
+    ],
+    "62": [
+      "tram_direct",
+      "rain_ok"
+    ],
+    "63": [
+      "tram_direct",
+      "rain_ok",
+      "photo",
+      "hidden_gem"
+    ],
+    "64": [
+      "parking",
+      "rain_ok",
+      "stroller",
+      "wheelchair"
+    ],
+    "65": [
+      "tram_direct",
+      "rain_ok",
+      "stroller"
+    ],
+    "66": [
+      "tram_direct",
+      "rain_ok",
+      "low_cost"
+    ],
+    "67": [
+      "tram_direct",
+      "rain_ok",
+      "photo"
+    ],
+    "68": [
+      "tram_direct",
+      "rain_ok",
+      "photo",
+      "wheelchair"
+    ],
+    "69": [
+      "tram_direct",
+      "rain_ok",
+      "photo",
+      "hidden_gem"
+    ],
+    "72": [
+      "tram_direct",
+      "big_lawn",
+      "stroller",
+      "photo"
+    ],
+    "73": [
+      "tram_direct",
+      "big_lawn",
+      "stroller",
+      "rain_ok"
+    ],
+    "74": [
+      "tram_direct",
+      "big_lawn",
+      "stroller",
+      "photo"
+    ],
+    "75": [
+      "tram_direct",
+      "big_lawn",
+      "stroller",
+      "rain_ok"
+    ],
+    "78": [
+      "tram_direct",
+      "big_lawn",
+      "stroller"
+    ],
+    "86": [
+      "tram_direct",
+      "big_lawn",
+      "stroller",
+      "pet_friendly"
+    ],
+    "164": [
+      "tram_direct",
+      "photo",
+      "stroller"
+    ],
+    "165": [
+      "tram_direct",
+      "photo",
+      "stroller"
+    ],
+    "166": [
+      "tram_direct",
+      "photo",
+      "stroller"
+    ],
+    "169": [
+      "tram_direct",
+      "food",
+      "low_cost"
+    ],
+    "171": [
+      "tram_direct",
+      "food",
+      "photo",
+      "pet_friendly"
+    ],
+    "174": [
+      "tram_direct",
+      "food",
+      "low_cost"
+    ],
+    "189": [
+      "parking",
+      "big_lawn",
+      "stroller",
+      "pet_friendly"
+    ],
+    "191": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "wheelchair"
+    ],
+    "192": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "photo"
+    ],
+    "193": [
+      "tram_direct",
+      "rain_ok",
+      "air_con"
+    ],
+    "194": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "low_cost"
+    ],
+    "195": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "stroller"
+    ],
+    "196": [
+      "tram_direct",
+      "rain_ok",
+      "air_con",
+      "photo"
+    ],
+    "197": [
+      "tram_direct",
+      "rain_ok",
+      "low_cost",
+      "photo"
+    ],
+    "198": [
+      "parking",
+      "photo",
+      "stroller",
+      "crowd_warn"
+    ]
+  },
+  "VENUE_HONEST_REVIEWS": {
+    "1": [
+      {
+        "rating": "mixed",
+        "text": "拍照绝绝子但暑假人山人海，热门项目排队1-2小时。建议工作日去或买尊享卡。性价比看个人，孩子开心就行。",
+        "author": "二宝妈·浦东"
+      },
+      {
+        "rating": "good",
+        "text": "十周年庆典值得一看，城堡秀和花车巡游焕新。周五周六加时到22:30，夜场氛围好。",
+        "author": "迪士尼忠实粉"
+      }
+    ],
+    "2": [
+      {
+        "rating": "mixed",
+        "text": "20万㎡空调房夏天遛娃舒服，但位置太远（临港），来回3小时。虎鲸表演值得看，其他项目偏少。门票原价贵，特惠票才划算。",
+        "author": "精打细算妈"
+      },
+      {
+        "rating": "good",
+        "text": "夜场无人机烟花震撼！6.27-8.31连续66天，卡皮巴拉萌趣乐园新增，低龄宝宝也有玩点。",
+        "author": "临港本地宝妈"
+      }
+    ],
+    "3": [
+      {
+        "rating": "mixed",
+        "text": "EV音乐乐园氛围好但偏年轻人，亲子项目不多。7/18徐秉龙等艺人空降值得追，但人多排队久。",
+        "author": "松弛感妈妈"
+      }
+    ],
+    "4": [
+      {
+        "rating": "good",
+        "text": "加菲猫主题街区拍照可爱！8米巨型加菲猫孩子尖叫。夜场99元套票性价比不错，周末人不多反而是优势。",
+        "author": "闵行区妈妈"
+      }
+    ],
+    "5": [
+      {
+        "rating": "mixed",
+        "text": "2-12岁孩子天堂！但门票339起步偏高，金山偏远自驾1.5小时。园区不大但内容丰富，建议早点到玩一天。",
+        "author": "金山自驾妈"
+      }
+    ],
+    "8": [
+      {
+        "rating": "good",
+        "text": "85%展陈更新后重回遛娃顶流！球幕秀和VR剧场超受欢迎但排队久。奇骥奔腾有奖互动孩子喜欢，建议9点开门就进。",
+        "author": "科技馆常客"
+      },
+      {
+        "rating": "mixed",
+        "text": "7/11-13未来科学论坛大咖云集，但偏学术。日常展区适合3-12岁，0-3岁可玩区域偏少。",
+        "author": "理科妈妈"
+      }
+    ],
+    "9": [
+      {
+        "rating": "good",
+        "text": "恐龙VR展孩子尖叫！夜宿博物馆要提前抢名额但超值得。周六延时到20点适合上班族，门票30元白菜价。",
+        "author": "夜宿体验者"
+      },
+      {
+        "rating": "mixed",
+        "text": "蚊虫注意！户外区域多，夏天必带驱蚊液。VR展另收费，全体验下来费用不低。",
+        "author": "避坑侠"
+      }
+    ],
+    "14": [
+      {
+        "rating": "mixed",
+        "text": "蛋仔派对IP联动有趣！夜场票99元性价比超高。但暑期人多排队长，车入区一定要坐免费大巴。",
+        "author": "动物迷妈妈"
+      },
+      {
+        "rating": "good",
+        "text": "夜探猛兽区刺激又安全，科普夜游有专业讲解。低至6折预售值得蹲。",
+        "author": "夜公园爱好者"
+      }
+    ],
+    "15": [
+      {
+        "rating": "good",
+        "text": "40元门票性价比不错！动物奇妙夜值得体验但名额有限需预约。蚊虫多必须带驱蚊液！",
+        "author": "西郊公园常客"
+      }
+    ],
+    "18": [
+      {
+        "rating": "mixed",
+        "text": "40+水上项目夏天必去！但排队久、换衣间拥挤。建议自带浴巾和防水袋。水质OK但人多时体验下降。",
+        "author": "水上乐园达人"
+      },
+      {
+        "rating": "good",
+        "text": "深海龙宫NPC天团有趣，六大亲子闯关适合3-8岁。与欢乐谷联动白天玩水+夜晚嗨歌组合不错。",
+        "author": "佘山度假区粉丝"
+      }
+    ],
+    "19": [
+      {
+        "rating": "mixed",
+        "text": "夏天室内滑雪解暑神器！但滑雪219元起步不便宜。水世界99元性价比高，245米漂流河道孩子喜欢。位置偏远（临港）。",
+        "author": "冰雪爱好者"
+      }
+    ],
+    "20": [
+      {
+        "rating": "good",
+        "text": "夏日奇幻夜国创IP联动很潮！九曲桥AR打卡有趣，NPC互动沉浸感强。免费进入性价比高。",
+        "author": "二次元妈妈"
+      },
+      {
+        "rating": "mixed",
+        "text": "人流量大周末挤，但夜场氛围好。非遗手作沙龙值得参加。",
+        "author": "老上海人"
+      }
+    ],
+    "23": [
+      {
+        "rating": "good",
+        "text": "20元门票性价比极高！泼水活动7/13启动，荷花盛花期正好。",
+        "author": "宝山妈妈"
+      },
+      {
+        "rating": "mixed",
+        "text": "蚊子极多！必须带驱蚊液，否则孩子被咬惨。免费区域大但设施偏旧。",
+        "author": "避坑侠"
+      }
+    ],
+    "191": [
+      {
+        "rating": "good",
+        "text": "国采展故宫服饰101件近九成首次出京，震撼！早鸟58元对故宫级别展览来说很值。",
+        "author": "文化妈妈"
+      },
+      {
+        "rating": "mixed",
+        "text": "偏成人视角，6岁以下孩子可能无聊。建议带讲解器或参加亲子导览。",
+        "author": "故宫粉"
+      }
+    ],
+    "195": [
+      {
+        "rating": "good",
+        "text": "恐龙沉浸式观展亚洲首展！近1小时沉浸体验孩子全程尖叫。西岸滨江遛娃一条线。",
+        "author": "恐龙迷妈妈"
+      }
+    ],
+    "197": [
+      {
+        "rating": "good",
+        "text": "免费！73个鱼鱼居民造型可爱，17米瘫瘫鱼气模拍照绝绝子。双城联动集章打卡有礼品。",
+        "author": "海绵宝宝粉"
+      },
+      {
+        "rating": "mixed",
+        "text": "周末人多，建议工作日上午去。B1层快闪店限定周边价格偏高。",
+        "author": "理性消费者"
+      }
+    ],
+    "198": [
+      {
+        "rating": "good",
+        "text": "5月新开业！18000㎡沙滩水乐园超惊艳，海狮表演每日4场孩子尖叫。69元/人性价比高。",
+        "author": "青浦探店达人"
+      },
+      {
+        "rating": "mixed",
+        "text": "自驾约1小时，公共交通不太方便。岛上还有萌宠乐园、卡丁车可以玩一整天。",
+        "author": "自驾遛娃族"
+      }
+    ]
+  }
 }
