@@ -8,384 +8,490 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #FFF8F0;
+  --bg: #F9F5F0;
+  --bg-cream: #FFF8F0;
   --bg-card: #FFFFFF;
-  --bg-card-hover: #FFF0E0;
-  --bg-sidebar: #FFEDDC;
-  --border: #F2DCC8;
-  --text: #5C4033;
-  --text-secondary: #9B8070;
-  --text-muted: #C4A898;
-  --accent: #FF8C5A;
-  --accent-glow: rgba(255, 140, 90, 0.12);
-  --accent-light: rgba(255, 140, 90, 0.08);
-  --green: #5EC489;
-  --orange: #FFA94D;
-  --red: #FF6B7A;
-  --purple: #B084F0;
-  --yellow: #FFD93D;
-  --cyan: #4FC3D9;
-  --pink: #FF8FB1;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 4px 16px rgba(255, 140, 90, 0.10);
-  --transition: 0.2s ease;
+  --bg-hover: #F5EDE3;
+  --bg-sidebar: #F5EDE3;
+  --border: #E8DDD0;
+  --border-light: #F0E6D8;
+  --text: #3D3024;
+  --text-sec: #7A6B5D;
+  --text-muted: #B8A898;
+  --accent: #C47A5A;
+  --accent-light: rgba(196,122,90,0.10);
+  --accent-glow: rgba(196,122,90,0.18);
+  --green: #6DB88F;
+  --orange: #D4A04A;
+  --red: #D4606A;
+  --purple: #9B7AD8;
+  --teal: #5BADC4;
+  --pink: #D87098;
+  --sage: #8BA888;
+  --lavender: #C4A0D8;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 2px 8px rgba(61,48,36,0.06);
+  --shadow-md: 0 4px 20px rgba(61,48,36,0.10);
+  --transition: 0.25s ease;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: var(--font);
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
-/* Layout */
-.app { display: grid; grid-template-columns: 280px 1fr; grid-template-rows: 64px 1fr; min-height: 100vh; }
+/* ===== LAYOUT ===== */
+.app {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 56px 1fr;
+  min-height: 100vh;
+}
 
 .header {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  background: var(--bg-sidebar);
-  border-bottom: 1px solid var(--border);
-  z-index: 10;
+  padding: 0 20px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+  z-index: 50;
+}
+.header-left { display: flex; align-items: center; gap: 14px; }
+.logo {
+  font-size: 20px; font-weight: 700; color: var(--accent);
+  letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px;
+}
+.logo-icon { font-size: 24px; }
+.logo-text { color: var(--text); font-weight: 400; font-size: 16px; opacity: 0.7; }
+.date-badge {
+  background: var(--accent-light); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-size: 12px; color: var(--accent); font-weight: 500;
 }
 
-.header-left { display: flex; align-items: center; gap: 12px; }
-.logo { font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
-.logo span { color: var(--text); font-weight: 400; }
-.date-badge { 
-  background: var(--bg-card); 
-  border: 1px solid var(--border); 
-  border-radius: var(--radius-sm); 
-  padding: 4px 12px; 
-  font-size: 13px; 
-  color: var(--text-secondary); 
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-weather {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--bg-cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 4px 10px;
+  font-size: 12px; color: var(--text-sec); cursor: default;
 }
+.header-weather .hw-icon { font-size: 16px; }
+.header-weather .hw-temp { font-weight: 700; color: var(--text); }
 
-.header-right { display: flex; align-items: center; gap: 16px; }
 .search-wrap { position: relative; }
 .search-wrap input {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px 8px 36px;
-  color: var(--text);
-  font-size: 14px;
-  width: 280px;
-  transition: var(--transition);
+  background: var(--bg-cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 7px 10px 7px 32px;
+  color: var(--text); font-size: 13px; width: 220px; transition: var(--transition);
+  font-family: var(--font);
 }
-.search-wrap input:focus { outline: none; border-color: var(--accent); width: 320px; }
-.search-wrap .search-icon {
-  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-  color: var(--text-muted); font-size: 16px;
-}
-.view-toggle { display: flex; background: var(--bg); border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
-.view-toggle button {
-  padding: 6px 16px; font-size: 13px; border: none; cursor: pointer;
-  color: var(--text-secondary); background: transparent; transition: var(--transition);
-}
-.view-toggle button.active { background: var(--accent); color: #FFF; }
+.search-wrap input:focus { outline: none; border-color: var(--accent); width: 260px; background: #fff; }
+.search-wrap .search-icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
 
-/* Sidebar */
+.itinerary-toggle-btn {
+  background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm);
+  padding: 6px 12px; font-size: 13px; cursor: pointer; font-weight: 500;
+  transition: var(--transition); display: flex; align-items: center; gap: 4px;
+  font-family: var(--font);
+}
+.itinerary-toggle-btn:hover { background: #B06848; }
+.itinerary-toggle-btn .itin-count {
+  background: #fff; color: var(--accent); border-radius: 10px;
+  padding: 1px 6px; font-size: 11px; font-weight: 700;
+}
+
+/* ===== SIDEBAR ===== */
 .sidebar {
-  background: var(--bg-sidebar);
-  border-right: 1px solid var(--border);
-  padding: 20px;
-  overflow-y: auto;
-  display: flex; flex-direction: column; gap: 24px;
-}
-
-/* Live Weather Card */
-.live-weather {
-  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 169, 77, 0.10) 100%);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-light);
   padding: 16px;
-  margin-bottom: 12px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px;
 }
-.live-weather.loading { opacity: 0.5; }
-.live-weather .weather-main {
-  display: flex; align-items: center; gap: 14px;
-}
-.live-weather .weather-temp {
-  font-size: 42px; font-weight: 700; line-height: 1;
-  background: linear-gradient(135deg, var(--orange), var(--pink));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.live-weather .weather-info { flex: 1; }
-.live-weather .weather-condition {
-  font-size: 15px; font-weight: 600; color: var(--text);
-  display: flex; align-items: center; gap: 6px;
-}
-.live-weather .weather-condition .w-icon { font-size: 28px; }
-.live-weather .weather-detail {
-  font-size: 11px; color: var(--text-secondary); margin-top: 4px;
-  display: flex; gap: 12px; flex-wrap: wrap;
-}
-.live-weather .weather-detail span { display: flex; align-items: center; gap: 3px; }
-.live-weather .weather-tip {
-  font-size: 12px; color: var(--accent); margin-top: 10px;
-  padding: 6px 10px; background: var(--accent-glow); border-radius: var(--radius-sm);
-  display: flex; align-items: center; gap: 6px;
-}
-.live-weather .weather-error {
-  font-size: 12px; color: var(--red); text-align: center; padding: 8px;
-}
-.weather-forecast-row {
-  display: flex; gap: 6px; margin-top: 10px;
-}
-.weather-forecast-day {
-  flex: 1; text-align: center; padding: 6px 2px;
-  border-radius: var(--radius-sm); background: rgba(255, 140, 90, 0.06);
-  font-size: 10px; color: var(--text-secondary);
-}
-.weather-forecast-day .fd-icon { font-size: 18px; display: block; margin-bottom: 2px; }
-.weather-forecast-day .fd-date { font-weight: 600; color: var(--text); }
-.weather-forecast-day .fd-hi { color: var(--orange); }
-.weather-forecast-day .fd-lo { color: var(--accent); }
 
-/* Header weather badge */
-.header-weather {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 5px 14px;
-  font-size: 13px; color: var(--text-secondary);
-  cursor: default; transition: var(--transition);
+/* Weather mini card */
+.weather-mini {
+  background: linear-gradient(135deg, var(--bg-cream), rgba(212,160,74,0.08));
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px; display: flex; align-items: center; gap: 10px;
 }
-.header-weather .hw-icon { font-size: 18px; }
-.header-weather .hw-temp { font-weight: 700; color: var(--text); }
-.header-weather .hw-desc { color: var(--text-muted); font-size: 11px; }
-.header-weather.rainy { border-color: var(--accent); }
-.header-weather.sunny { border-color: var(--orange); }
+.weather-mini .wm-temp {
+  font-size: 28px; font-weight: 700; line-height: 1;
+  color: var(--orange);
+}
+.weather-mini .wm-info { font-size: 12px; }
+.weather-mini .wm-cond { font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.weather-mini .wm-detail { color: var(--text-muted); font-size: 10px; }
+.weather-mini .wm-tip {
+  font-size: 11px; color: var(--accent); margin-top: 6px;
+  padding: 4px 8px; background: var(--accent-light); border-radius: 6px;
+  display: none;
+}
 
-/* Weather Toggle */
-.weather-toggle {
-  display: flex; gap: 8px; margin-bottom: 8px;
-}
+.weather-btn-row { display: flex; gap: 6px; }
 .weather-btn {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  padding: 12px 8px; border: 2px solid var(--border); border-radius: var(--radius);
-  background: var(--bg-card); color: var(--text-secondary); cursor: pointer;
-  transition: var(--transition); gap: 2px;
+  flex: 1; padding: 6px 4px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-card); color: var(--text-sec); cursor: pointer;
+  font-size: 11px; text-align: center; transition: var(--transition);
+  font-family: var(--font);
 }
-.weather-btn:hover { border-color: var(--text-muted); }
-.weather-btn .weather-icon { font-size: 24px; }
-.weather-btn .weather-label { font-size: 13px; font-weight: 600; }
-.weather-btn .weather-sub { font-size: 10px; color: var(--text-muted); }
-.weather-btn.sunny.active { border-color: var(--orange); background: rgba(255, 169, 77, 0.12); color: #D88830; }
-.weather-btn.sunny.active .weather-sub { color: var(--orange); }
-.weather-btn.rainy.active { border-color: var(--accent); background: var(--accent-glow); color: var(--accent); }
-.weather-btn.rainy.active .weather-sub { color: var(--accent); }
+.weather-btn.active.sunny { border-color: var(--orange); background: rgba(212,160,74,0.12); color: var(--orange); }
+.weather-btn.active.rainy { border-color: var(--teal); background: rgba(91,173,196,0.12); color: var(--teal); }
 
-/* Venue Type Toggle */
-.venue-type-toggle {
-  display: flex; gap: 4px; margin-bottom: 16px;
+.type-btn-row { display: flex; gap: 4px; }
+.type-btn {
+  flex: 1; padding: 6px 2px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-card); color: var(--text-sec); cursor: pointer;
+  font-size: 11px; transition: var(--transition); font-family: var(--font);
 }
-.vtype-btn {
-  flex: 1; padding: 8px 4px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-  background: var(--bg-card); color: var(--text-secondary); cursor: pointer;
-  font-size: 12px; transition: var(--transition); white-space: nowrap;
-}
-.vtype-btn:hover { border-color: var(--text-muted); color: var(--text); }
-.vtype-btn.all.active { border-color: var(--text-muted); background: var(--bg-card-hover); color: var(--text); }
-.vtype-btn.indoor.active { border-color: var(--cyan); background: rgba(79, 195, 217, 0.12); color: #2BA8C0; }
-.vtype-btn.outdoor.active { border-color: var(--green); background: rgba(94, 196, 137, 0.12); color: #3DA068; }
+.type-btn.active.all { border-color: var(--text-muted); background: var(--bg-hover); color: var(--text); }
+.type-btn.active.indoor { border-color: var(--teal); background: rgba(91,173,196,0.10); color: var(--teal); }
+.type-btn.active.outdoor { border-color: var(--green); background: rgba(109,184,143,0.10); color: var(--green); }
 
+/* Filter group */
 .filter-group h3 {
-  font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--text-muted); margin-bottom: 12px; font-weight: 600;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-muted); margin-bottom: 10px; font-weight: 600;
 }
 
-.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+/* Age range slider */
+.age-slider-wrap {
+  background: var(--bg-cream); border-radius: var(--radius-sm);
+  padding: 10px 12px; border: 1px solid var(--border-light);
+}
+.age-slider-labels {
+  display: flex; justify-content: space-between; margin-bottom: 6px;
+  font-size: 10px; color: var(--text-muted);
+}
+.age-slider-values {
+  text-align: center; font-size: 13px; font-weight: 600; color: var(--accent);
+  margin-top: 4px;
+}
+.age-slider-track {
+  position: relative; height: 6px; background: var(--border);
+  border-radius: 3px; margin: 8px 0;
+}
+.age-slider-fill {
+  position: absolute; height: 100%; background: var(--accent);
+  border-radius: 3px; transition: left 0.15s, width 0.15s;
+}
+.age-slider-thumb {
+  position: absolute; top: -5px; width: 16px; height: 16px;
+  background: #fff; border: 2px solid var(--accent); border-radius: 50%;
+  cursor: grab; z-index: 2; transition: box-shadow 0.15s;
+  touch-action: none;
+}
+.age-slider-thumb:hover, .age-slider-thumb.dragging { box-shadow: 0 0 0 4px var(--accent-light); }
+
+/* Chip filters */
+.filter-chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip {
-  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
-  font-size: 12px; cursor: pointer; transition: var(--transition);
-  color: var(--text-secondary); background: transparent; white-space: nowrap;
-  user-select: none;
+  padding: 4px 10px; border-radius: 16px; border: 1px solid var(--border);
+  font-size: 11px; cursor: pointer; transition: var(--transition);
+  color: var(--text-sec); background: transparent; white-space: nowrap;
+  user-select: none; font-family: var(--font);
 }
 .chip:hover { border-color: var(--text-muted); color: var(--text); }
 .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-.stats-box {
-  background: var(--bg-card); border-radius: var(--radius); padding: 16px;
-  border: 1px solid var(--border);
+/* Feature tag matrix */
+.tag-matrix { display: flex; flex-wrap: wrap; gap: 4px; }
+.ftag {
+  padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
+  font-size: 11px; cursor: pointer; transition: var(--transition);
+  color: var(--text-sec); background: transparent; display: flex;
+  align-items: center; gap: 3px; user-select: none; font-family: var(--font);
 }
-.stats-box .stat-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
-.stats-box .stat-row .label { color: var(--text-secondary); }
+.ftag:hover { border-color: var(--sage); color: var(--sage); }
+.ftag.active { background: rgba(139,168,136,0.15); border-color: var(--sage); color: var(--sage); }
+.ftag .ftag-icon { font-size: 12px; }
+
+.stats-box {
+  background: var(--bg-cream); border-radius: var(--radius-sm); padding: 10px;
+  border: 1px solid var(--border-light);
+}
+.stats-box .stat-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; }
+.stats-box .stat-row .label { color: var(--text-muted); }
 .stats-box .stat-row .value { font-weight: 600; color: var(--accent); }
 
-/* Main Content */
+/* ===== MAIN CONTENT ===== */
 .main {
-  padding: 24px; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 24px;
+  padding: 16px; overflow-y: auto;
 }
 
-/* Calendar View */
-.calendar-container {
-  background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border);
-  padding: 20px; overflow: hidden;
-}
-.calendar-header {
+.result-header {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-.calendar-header h2 { font-size: 18px; font-weight: 600; }
-.calendar-nav { display: flex; gap: 8px; }
-.calendar-nav button {
-  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  color: var(--text); padding: 6px 14px; cursor: pointer; font-size: 14px; transition: var(--transition);
+.result-header .result-title {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; gap: 6px;
 }
-.calendar-nav button:hover { background: var(--bg-card-hover); }
+.result-header .result-count { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+.sort-btn {
+  background: var(--bg-cream); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-size: 12px; color: var(--text-sec); cursor: pointer;
+  font-family: var(--font); transition: var(--transition);
+}
+.sort-btn:hover { background: var(--bg-hover); }
 
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
-.calendar-grid .day-header {
-  background: var(--bg-sidebar); padding: 10px; text-align: center;
-  font-size: 12px; color: var(--text-muted); font-weight: 600;
+/* Masonry layout */
+.masonry {
+  columns: 2; column-gap: 14px;
 }
-.calendar-grid .day-header.weekend { color: var(--orange); }
-.calendar-grid .day-cell {
-  background: var(--bg-card); padding: 8px; min-height: 90px; cursor: pointer;
-  transition: var(--transition); position: relative;
-}
-.calendar-grid .day-cell:hover { background: var(--bg-card-hover); }
-.calendar-grid .day-cell.other-month { opacity: 0.35; }
-.calendar-grid .day-cell.today { box-shadow: inset 0 0 0 2px var(--accent); }
-.calendar-grid .day-cell.selected { background: var(--accent-glow); }
-.day-num { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
-.day-events { display: flex; flex-direction: column; gap: 2px; }
-.day-event-dot {
-  font-size: 10px; padding: 1px 5px; border-radius: 3px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  line-height: 1.6;
-}
-.day-more { font-size: 10px; color: var(--accent); margin-top: 2px; }
 
-/* Event Cards */
-.section-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--text); display: flex; align-items: center; gap: 8px; }
-.section-title .count { font-size: 12px; color: var(--text-muted); font-weight: 400; }
-
-.event-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
-
-.event-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 18px; transition: var(--transition); cursor: pointer;
+/* Venue Card */
+.venue-card {
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius); padding: 14px;
+  break-inside: avoid; margin-bottom: 14px;
+  transition: var(--transition); cursor: pointer; position: relative;
 }
-.event-card:hover { background: var(--bg-card-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
-.event-card .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.event-card .card-title { font-size: 15px; font-weight: 600; line-height: 1.4; }
-.event-card .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.venue-card:hover {
+  border-color: var(--accent); box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-add-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: var(--accent-light); border: 1px solid var(--accent);
+  border-radius: 50%; width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: var(--accent);
+  transition: var(--transition); z-index: 2;
+}
+.card-add-btn:hover { background: var(--accent); color: #fff; }
+.card-add-btn.in-itinerary { background: var(--green); border-color: var(--green); color: #fff; }
+.card-add-btn.in-itinerary:hover { background: var(--red); border-color: var(--red); }
+
+.card-title {
+  font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4;
+  margin-bottom: 6px; padding-right: 30px;
+}
+
+.card-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 8px; }
 .tag {
-  font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500;
+  font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 500;
 }
-.tag-cat { background: rgba(255, 140, 90, 0.15); color: #E87040; }
-.tag-district { background: rgba(176, 132, 240, 0.15); color: #8B5CE0; }
-.tag-age { background: rgba(94, 196, 137, 0.15); color: #3DA068; }
-.tag-free { background: rgba(255, 169, 77, 0.15); color: #D88830; }
-.tag-paid { background: rgba(255, 143, 177, 0.15); color: #E06890; }
-.tag-indoor { background: rgba(79, 195, 217, 0.15); color: #2BA8C0; }
-.tag-outdoor { background: rgba(255, 217, 61, 0.20); color: #C4A800; }
-.tag-event { background: rgba(255, 107, 122, 0.15); color: #E04050; font-weight: 600; }
+.tag-cat { background: rgba(196,122,90,0.12); color: #A06040; }
+.tag-district { background: rgba(155,122,216,0.12); color: #7B5AD0; }
+.tag-age { background: rgba(109,184,143,0.12); color: #4DA868; }
+.tag-free { background: rgba(212,160,74,0.12); color: #C08830; }
+.tag-paid { background: rgba(216,112,152,0.12); color: #C06080; }
+.tag-indoor { background: rgba(91,173,196,0.12); color: #3A98B8; }
+.tag-outdoor { background: rgba(139,168,136,0.12); color: #6A9060; }
+.tag-event { background: rgba(212,96,106,0.12); color: #C04050; font-weight: 600; }
+.tag-review-good { background: rgba(109,184,143,0.15); color: #3DA068; }
+.tag-review-bad { background: rgba(212,96,106,0.15); color: #C04050; }
+.tag-feature { background: rgba(139,168,136,0.10); color: #6A9060; font-size: 10px; }
 
-.event-card .card-meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.6; }
-.event-card .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-desc {
+  font-size: 12px; color: var(--text-sec); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
 
-/* Detail Modal */
+.card-events { margin-top: 8px; }
+.card-event-row {
+  display: flex; gap: 6px; padding: 6px 8px;
+  background: var(--bg-cream); border-radius: 6px;
+  margin-bottom: 4px; font-size: 11px;
+}
+.card-event-row .ev-date { color: var(--accent); font-weight: 600; min-width: 48px; }
+.card-event-row .ev-title { font-weight: 500; }
+
+.card-review-badge {
+  display: flex; align-items: center; gap: 4px; margin-top: 6px;
+  font-size: 11px; padding: 4px 8px; border-radius: 6px;
+}
+.card-review-badge.good { background: rgba(109,184,143,0.10); color: var(--green); }
+.card-review-badge.mixed { background: rgba(212,160,74,0.10); color: var(--orange); }
+.card-review-badge.bad { background: rgba(212,96,106,0.10); color: var(--red); }
+
+/* ===== HOVER PREVIEW ===== */
+.hover-preview {
+  position: fixed; z-index: 40; width: 280px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px;
+  box-shadow: var(--shadow-md); pointer-events: none;
+  opacity: 0; transition: opacity 0.15s;
+  font-size: 12px;
+}
+.hover-preview.show { opacity: 1; }
+.hover-preview .hp-name { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.hover-preview .hp-row { display: flex; gap: 6px; margin-bottom: 4px; color: var(--text-sec); }
+.hover-preview .hp-row .hp-label { color: var(--text-muted); min-width: 50px; }
+.hover-preview .hp-feature { font-size: 11px; color: var(--accent); font-weight: 500; }
+
+/* ===== ITINERARY PANEL ===== */
+.itinerary-panel {
+  position: fixed; bottom: 20px; right: 20px; z-index: 60;
+  width: 360px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-md); transition: var(--transition);
+  display: none;
+}
+.itinerary-panel.open { display: block; }
+.itinerary-panel .itin-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 1px solid var(--border);
+  background: var(--bg-cream); border-radius: var(--radius) var(--radius) 0 0;
+}
+.itinerary-panel .itin-header h3 { font-size: 14px; font-weight: 600; }
+.itinerary-panel .itin-close {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 18px; cursor: pointer;
+}
+.itinerary-panel .itin-body { padding: 14px; max-height: 360px; overflow-y: auto; }
+.itinerary-panel .itin-empty {
+  text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px;
+}
+.itinerary-panel .itin-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px;
+  border-radius: var(--radius-sm); background: var(--bg-cream);
+  margin-bottom: 6px; position: relative;
+}
+.itinerary-panel .itin-item .itin-order {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent); color: #fff; text-align: center;
+  font-size: 12px; font-weight: 700; line-height: 24px;
+}
+.itinerary-panel .itin-item .itin-venue-info { flex: 1; font-size: 12px; }
+.itinerary-panel .itin-item .itin-venue-name { font-weight: 600; color: var(--text); }
+.itinerary-panel .itin-item .itin-venue-meta { color: var(--text-muted); font-size: 10px; }
+.itinerary-panel .itin-item .itin-remove {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 14px; transition: var(--transition);
+}
+.itinerary-panel .itin-item .itin-remove:hover { color: var(--red); }
+
+.itinerary-panel .itin-route {
+  margin-top: 10px; padding: 10px; background: var(--accent-light);
+  border-radius: var(--radius-sm); font-size: 12px;
+}
+.itinerary-panel .itin-route .itin-route-label {
+  font-weight: 600; color: var(--accent); margin-bottom: 4px;
+}
+.itinerary-panel .itin-route .itin-timeline {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.itinerary-panel .itin-route .itin-timeline-row {
+  display: flex; gap: 8px; align-items: center;
+}
+.itinerary-panel .itin-route .itin-time-slot {
+  font-weight: 500; color: var(--accent); min-width: 60px;
+}
+.itinerary-panel .itin-route .itin-time-venue { color: var(--text); }
+
+.itinerary-panel .itin-footer {
+  padding: 10px 14px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.itinerary-panel .itin-copy-btn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: 6px 14px;
+  font-size: 12px; cursor: pointer; font-weight: 500;
+  font-family: var(--font); transition: var(--transition);
+}
+.itinerary-panel .itin-copy-btn:hover { background: #B06848; }
+.itinerary-panel .itin-clear-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-sec);
+  border-radius: var(--radius-sm); padding: 6px 10px;
+  font-size: 12px; cursor: pointer; font-family: var(--font);
+}
+
+/* ===== MODAL ===== */
 .modal-overlay {
-  position: fixed; inset: 0; background: rgba(92, 64, 51, 0.35); z-index: 100;
+  position: fixed; inset: 0; background: rgba(61,48,36,0.30); z-index: 100;
   display: flex; align-items: center; justify-content: center;
   animation: fadeIn 0.2s ease;
 }
 .modal {
   background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border);
-  max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 28px;
-  box-shadow: 0 20px 60px rgba(255, 140, 90, 0.15);
+  max-width: 640px; width: 92%; max-height: 85vh; overflow-y: auto; padding: 24px;
+  box-shadow: var(--shadow-md); position: relative;
 }
-.modal h2 { font-size: 20px; margin-bottom: 12px; }
 .modal .close-btn {
-  position: absolute; top: 16px; right: 16px; background: none; border: none;
-  color: var(--text-secondary); font-size: 24px; cursor: pointer; transition: var(--transition);
+  position: absolute; top: 14px; right: 14px; background: none; border: none;
+  color: var(--text-muted); font-size: 20px; cursor: pointer; transition: var(--transition);
 }
 .modal .close-btn:hover { color: var(--text); }
-.modal .detail-section { margin-bottom: 16px; }
-.modal .detail-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-.modal .detail-value { font-size: 14px; color: var(--text); }
-
-.event-row { display: flex; gap: 10px; padding: 10px; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 8px; }
-.event-row .event-date { 
-  font-size: 12px; color: var(--accent); font-weight: 600; min-width: 70px; 
-  white-space: nowrap;
+.modal h2 { font-size: 18px; margin-bottom: 10px; padding-right: 30px; }
+.modal .detail-section { margin-bottom: 14px; }
+.modal .detail-label {
+  font-size: 11px; color: var(--text-muted); margin-bottom: 3px;
+  text-transform: uppercase; letter-spacing: 0.5px;
 }
-.event-row .event-info { font-size: 13px; }
+.modal .detail-value { font-size: 13px; color: var(--text); }
+
+.modal .copy-btn-row { display: flex; gap: 8px; margin-top: 10px; }
+.copy-btn {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--bg-cream); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 6px 10px; font-size: 12px; color: var(--text-sec); cursor: pointer;
+  transition: var(--transition); font-family: var(--font);
+}
+.copy-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.copy-btn.copied { background: rgba(109,184,143,0.15); border-color: var(--green); color: var(--green); }
+
+.event-row {
+  display: flex; gap: 8px; padding: 8px 10px;
+  background: var(--bg-cream); border-radius: var(--radius-sm); margin-bottom: 6px;
+}
+.event-row .event-date { font-size: 12px; color: var(--accent); font-weight: 600; min-width: 48px; }
+.event-row .event-info { font-size: 12px; }
 .event-row .event-info strong { display: block; margin-bottom: 2px; }
+
+/* Honest Reviews */
+.review-section { margin-top: 14px; }
+.review-section .review-title {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 4px;
+}
+.review-card {
+  background: var(--bg-cream); border-radius: var(--radius-sm);
+  padding: 10px 12px; margin-bottom: 6px; border: 1px solid var(--border-light);
+}
+.review-card .review-header {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 4px;
+}
+.review-card .review-rating {
+  display: flex; gap: 2px; font-size: 12px;
+}
+.review-card .review-author { font-size: 11px; color: var(--text-muted); }
+.review-card .review-text { font-size: 12px; color: var(--text-sec); line-height: 1.5; }
+.review-card .review-pro { color: var(--green); font-weight: 500; }
+.review-card .review-con { color: var(--red); font-weight: 500; }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center; padding: 40px 16px; color: var(--text-muted); grid-column: 1 / -1;
+}
+.empty-state .empty-icon { font-size: 40px; margin-bottom: 10px; }
+.empty-state p { font-size: 13px; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.empty-state {
-  text-align: center; padding: 60px 20px; color: var(--text-muted);
-}
-.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state p { font-size: 14px; }
-
-/* Venue Carousel */
-.venue-carousel { position: relative; overflow: hidden; border-radius: var(--radius); background: var(--bg-card); border: 1px solid var(--border); }
-.venue-carousel-track { display: flex; transition: transform 0.4s ease; }
-.venue-carousel-slide {
-  min-width: 100%; padding: 20px 24px; cursor: pointer;
-  display: flex; flex-direction: column; gap: 8px;
-  box-sizing: border-box;
-}
-.venue-carousel-slide .carousel-title {
-  font-size: 17px; font-weight: 700; color: var(--text);
-}
-.venue-carousel-slide .carousel-district {
-  font-size: 12px; color: var(--accent); font-weight: 600;
-}
-.venue-carousel-slide .carousel-desc {
-  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-}
-.venue-carousel-slide .carousel-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.venue-carousel-slide .carousel-tags .tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
-.venue-carousel-controls {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 12px; border-top: 1px solid var(--border);
-}
-.venue-carousel-arrow {
-  background: none; border: 1px solid var(--border); color: var(--text-secondary);
-  width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
-  font-size: 14px; display: flex; align-items: center; justify-content: center;
-  transition: var(--transition);
-}
-.venue-carousel-arrow:hover { background: var(--bg); color: var(--text); }
-.venue-carousel-dots { display: flex; gap: 6px; }
-.venue-carousel-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--border); transition: var(--transition); cursor: pointer;
-}
-.venue-carousel-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
-
-/* Collapsible district */
-.collapsible-header {
-  cursor: pointer; user-select: none;
-  display: flex; align-items: center; gap: 6px;
-}
-.collapsible-header:hover { color: var(--text); }
-.collapse-arrow { font-size: 10px; transition: transform 0.2s; display: inline-block; }
-.collapse-arrow.open { transform: rotate(90deg); }
-.district-group { margin-bottom: 8px; }
-.district-collapse { margin-top: 8px; }
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .app { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .search-wrap input { width: 180px; }
-  .event-cards { grid-template-columns: 1fr; }
+  .search-wrap input { width: 160px; }
+  .masonry { columns: 1; }
+  .itinerary-panel { width: 300px; right: 10px; bottom: 10px; }
+}
+@media (min-width: 1200px) {
+  .masonry { columns: 3; }
 }
 </style>
 </head>
@@ -393,119 +499,296 @@ body {
 <div class="app">
   <header class="header">
     <div class="header-left">
-      <div class="logo">👣 遛娃<span>小脚印 · 上海</span></div>
+      <div class="logo"><span class="logo-icon">👣</span>遛娃<span class="logo-text">小脚印 · 上海</span></div>
       <div class="date-badge" id="dateBadge"></div>
     </div>
     <div class="header-right">
       <div class="header-weather" id="headerWeather" title="上海实时天气">
-        <span class="hw-icon">🌤️</span>
-        <span class="hw-temp">--°</span>
-        <span class="hw-desc">加载中...</span>
+        <span class="hw-icon">🌤️</span><span class="hw-temp">--°</span>
       </div>
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="搜索活动、场馆、区域..." oninput="applyFilters()">
+        <input type="text" id="searchInput" placeholder="搜索场馆、活动、区域..." oninput="applyFilters()">
       </div>
-      <div class="view-toggle">
-        <button class="active" onclick="switchView('calendar')" id="btnCalendar">📅 日历</button>
-        <button onclick="switchView('list')" id="btnList">📋 列表</button>
-      </div>
+      <button class="itinerary-toggle-btn" onclick="toggleItinerary()" id="itineraryToggle">
+        🗺️ 路线<span class="itin-count" id="itinCountBadge">0</span>
+      </button>
     </div>
   </header>
 
   <aside class="sidebar" id="sidebar">
-    <!-- 实时天气 -->
-    <div class="live-weather loading" id="liveWeather">
-      <div class="weather-main">
-        <span class="weather-temp">--°</span>
-        <div class="weather-info">
-          <div class="weather-condition"><span class="w-icon">🌤️</span> 加载中...</div>
-          <div class="weather-detail">
-            <span>💧 --%</span><span>🌬️ --km/h</span><span>☔ --mm</span>
-          </div>
-        </div>
+    <!-- Weather -->
+    <div class="weather-mini" id="weatherMini">
+      <span class="wm-temp">--°</span>
+      <div class="wm-info">
+        <div class="wm-cond"><span>🌤️</span> 加载中</div>
+        <div class="wm-detail">💧 --% 🌬️ --km/h</div>
       </div>
-      <div class="weather-forecast-row" id="weatherForecast"></div>
-      <div class="weather-tip" id="weatherTip" style="display:none"></div>
+      <div class="wm-tip" id="wmTip"></div>
+    </div>
+    <div class="weather-btn-row">
+      <button class="weather-btn sunny active" onclick="manualSetWeather('sunny')">☀️ 好天</button>
+      <button class="weather-btn rainy" onclick="manualSetWeather('rainy')">☔ 雨天</button>
+    </div>
+    <div class="type-btn-row">
+      <button class="type-btn all active" onclick="manualSetVenueType('all')">全部</button>
+      <button class="type-btn indoor" onclick="manualSetVenueType('indoor')">🏠 室内</button>
+      <button class="type-btn outdoor" onclick="manualSetVenueType('outdoor')">🌳 户外</button>
     </div>
 
-    <div class="weather-toggle">
-      <button class="weather-btn sunny active" id="weatherSunny" onclick="manualSetWeather('sunny')">
-        <span class="weather-icon">☀️</span>
-        <span class="weather-label">好天气</span>
-        <span class="weather-sub">室内外均可</span>
-      </button>
-      <button class="weather-btn rainy" id="weatherRainy" onclick="manualSetWeather('rainy')">
-        <span class="weather-icon">☔️</span>
-        <span class="weather-label">下雨天</span>
-        <span class="weather-sub">仅室内场馆</span>
-      </button>
-    </div>
-    <div class="venue-type-toggle">
-      <button class="vtype-btn all active" id="vtypeAll" onclick="manualSetVenueType('all')">🔄 全部</button>
-      <button class="vtype-btn indoor" id="vtypeIndoor" onclick="manualSetVenueType('indoor')">🏬 室内商场</button>
-      <button class="vtype-btn outdoor" id="vtypeOutdoor" onclick="manualSetVenueType('outdoor')">🌳 户外活动</button>
-    </div>
+    <!-- Age Slider -->
     <div class="filter-group">
-      <h3>👶 年龄段</h3>
-      <div class="filter-chips" id="ageFilters"></div>
+      <h3>👶 孩子年龄</h3>
+      <div class="age-slider-wrap">
+        <div class="age-slider-values" id="ageSliderValues">1岁 ~ 6岁</div>
+        <div class="age-slider-track" id="ageSliderTrack">
+          <div class="age-slider-fill" id="ageSliderFill"></div>
+          <div class="age-slider-thumb" id="ageSliderThumbMin" data-thumb="min"></div>
+          <div class="age-slider-thumb" id="ageSliderThumbMax" data-thumb="max"></div>
+        </div>
+        <div class="age-slider-labels">
+          <span>0岁</span><span>3岁</span><span>6岁</span><span>12岁</span><span>18岁</span>
+        </div>
+      </div>
     </div>
+
+    <!-- Categories -->
     <div class="filter-group">
       <h3>📂 分类</h3>
       <div class="filter-chips" id="categoryFilters"></div>
     </div>
-    <div class="filter-group district-group" id="districtGroup">
-      <h3 class="collapsible-header" onclick="toggleDistrictExpand()">
-        📍 区域<span class="collapse-arrow open" id="districtArrow">▶</span>
-      </h3>
-      <div class="district-collapse" id="districtCollapse" style="display:block">
-        <div class="filter-chips" id="districtRegionFilters"></div>
-      </div>
-    </div>
+
+    <!-- Districts -->
     <div class="filter-group">
-      <h3>💡 其他</h3>
-      <div class="filter-chips" id="otherFilters"></div>
+      <h3>📍 区域</h3>
+      <div class="filter-chips" id="districtFilters"></div>
     </div>
+
+    <!-- Feature Tags -->
+    <div class="filter-group">
+      <h3>✨ 特色标签</h3>
+      <div class="tag-matrix" id="featureTagFilters"></div>
+    </div>
+
+    <!-- Stats -->
     <div class="stats-box">
-      <div class="stat-row"><span class="label">场馆总数</span><span class="value" id="statVenues">-</span></div>
-      <div class="stat-row"><span class="label">近期活动</span><span class="value" id="statEvents">-</span></div>
-      <div class="stat-row"><span class="label">免费场馆</span><span class="value" id="statFree">-</span></div>
-      <div class="stat-row"><span class="label">今日活动</span><span class="value" id="statToday">-</span></div>
+      <div class="stat-row"><span class="label">场馆</span><span class="value" id="statVenues">198</span></div>
+      <div class="stat-row"><span class="label">近期活动</span><span class="value" id="statEvents">--</span></div>
+      <div class="stat-row"><span class="label">免费场馆</span><span class="value" id="statFree">--</span></div>
     </div>
   </aside>
 
   <main class="main" id="mainContent">
-    <!-- Calendar View -->
-    <div id="calendarView">
-      <div class="calendar-container">
-        <div class="calendar-header">
-          <h2 id="calendarMonthTitle">2026年7月</h2>
-          <div class="calendar-nav">
-            <button onclick="prevMonth()">◀ 上月</button>
-            <button onclick="goToToday()">今天</button>
-            <button onclick="nextMonth()">▶ 下月</button>
-          </div>
-        </div>
-        <div class="calendar-grid" id="calendarGrid"></div>
-      </div>
-      <div id="selectedDateEvents">
-        <div class="section-title">📌 今日推荐 <span class="count" id="selectedDateLabel"></span></div>
-        <div class="event-cards" id="selectedDateCards"></div>
+    <div class="result-header">
+      <div class="result-title">📍 遛娃推荐<span class="result-count" id="resultCount"></span></div>
+      <div style="display:flex;gap:6px">
+        <button class="sort-btn" onclick="sortVenues('event')" id="sortEvent">🔥 有活动优先</button>
+        <button class="sort-btn" onclick="sortVenues('free')" id="sortFree">🆓 免费优先</button>
+        <button class="sort-btn" onclick="sortVenues('near')" id="sortNear">📍 市中心优先</button>
       </div>
     </div>
-
-    <!-- List View -->
-    <div id="listView" style="display:none;">
-      <div class="section-title">📋 全部场馆与活动 <span class="count" id="listCount"></span></div>
-      <div class="event-cards" id="listCards"></div>
-    </div>
+    <div class="masonry" id="masonryGrid"></div>
   </main>
+</div>
+
+<!-- Hover Preview -->
+<div class="hover-preview" id="hoverPreview"></div>
+
+<!-- Itinerary Panel -->
+<div class="itinerary-panel" id="itineraryPanel">
+  <div class="itin-header">
+    <h3>🗺️ 今日遛娃路线</h3>
+    <button class="itin-close" onclick="toggleItinerary()">✕</button>
+  </div>
+  <div class="itin-body" id="itinBody">
+    <div class="itin-empty">点击场馆卡片上的 + 号添加到路线</div>
+  </div>
+  <div class="itin-route" id="itinRoute" style="display:none"></div>
+  <div class="itin-footer">
+    <button class="itin-copy-btn" onclick="copyItinerary()">📋 复制路线发微信</button>
+    <button class="itin-clear-btn" onclick="clearItinerary()">清空</button>
+  </div>
 </div>
 
 <div id="modalContainer"></div>
 
 <script>
-// ==================== DATA ====================
+// ==================== FEATURE TAGS ====================
+const FEATURE_TAGS = [
+  { id: 'tram_direct', name: '地铁直达', icon: '🚇' },
+  { id: 'big_lawn', name: '大草坪', icon: '🌿' },
+  { id: 'hidden_gem', name: '小众避风港', icon: '🤫' },
+  { id: 'pet_friendly', name: '宠物友好', icon: '🐕' },
+  { id: 'nursing_room', name: '有母婴室', icon: '🍼' },
+  { id: 'stroller', name: '推车友好', icon: '🚼' },
+  { id: 'rain_ok', name: '雨天避难', icon: '🏠' },
+  { id: 'air_con', name: '空调充足', icon: '❄️' },
+  { id: 'parking', name: '停车方便', icon: '🅿️' },
+  { id: 'photo', name: '出片圣地', icon: '📷' },
+  { id: 'food', name: '周边美食', icon: '🍜' },
+  { id: 'low_cost', name: '性价比高', icon: '💰' },
+  { id: 'crowd_warn', name: '周末人多⚠️', icon: '⚠️' },
+  { id: 'wheelchair', name: '无障碍', icon: '♿' },
+];
+
+// Extra tags for specific venues (beyond auto-derived)
+const VENUE_EXTRA_TAGS = {
+  1: ['crowd_warn','photo','parking'],         // 迪士尼
+  2: ['parking','photo','crowd_warn','air_con'], // 海昌
+  3: ['parking','crowd_warn','food'],            // 欢乐谷
+  4: ['tram_direct','low_cost','crowd_warn'],    // 锦江乐园
+  5: ['parking','photo','crowd_warn'],           // 乐高乐园
+  6: ['tram_direct','air_con','nursing_room','wheelchair'], // 上博人民广场
+  7: ['tram_direct','rain_ok','air_con','wheelchair'],     // 上博东馆
+  8: ['tram_direct','rain_ok','air_con','food'],            // 科技馆
+  9: ['tram_direct','rain_ok','air_con','wheelchair'],      // 自然博物馆
+  10: ['tram_direct','rain_ok','air_con','photo'],          // 中华艺术宫
+  11: ['rain_ok','parking'],                               // 航海博物馆
+  12: ['tram_direct','rain_ok','hidden_gem'],               // 玻璃博物馆
+  13: ['tram_direct','rain_ok','low_cost'],                 // 杜莎夫人
+  14: ['parking','photo','crowd_warn','nursing_room'],      // 野生动物园
+  15: ['tram_direct','low_cost','crowd_warn'],              // 动物园
+  16: ['tram_direct','rain_ok','photo','crowd_warn'],       // 海洋水族馆
+  17: ['tram_direct','rain_ok','stroller'],                 // 长风海洋世界
+  18: ['parking','crowd_warn','food'],                      // 玛雅水公园
+  19: ['parking','rain_ok','air_con','stroller'],           // 耀雪
+  20: ['tram_direct','food','photo'],                       // 豫园
+  21: ['tram_direct','low_cost','hidden_gem'],              // 古猗园
+  22: ['parking','big_lawn','stroller'],                    // 辰山植物园
+  23: ['tram_direct','big_lawn','low_cost'],                // 顾村公园
+  24: ['tram_direct','big_lawn','low_cost'],                // 植物园
+  25: ['tram_direct','big_lawn','pet_friendly'],            // 世纪公园
+  26: ['tram_direct','photo','crowd_warn'],                 // 金山城市沙滩
+  27: ['tram_direct','crowd_warn','parking'],               // 碧海金沙
+  28: ['tram_direct','photo','low_cost'],                   // 影视乐园
+  29: ['parking','big_lawn','stroller','pet_friendly'],     // 东方绿舟
+  30: ['parking','big_lawn','pet_friendly'],                // 东平森林公园
+  31: ['parking','hidden_gem'],                             // 明珠湖
+  32: ['parking','hidden_gem','pet_friendly'],              // 廊下郊野
+  33: ['parking','pet_friendly'],                           // 大观园
+  36: ['tram_direct','rain_ok','photo','crowd_warn'],       // 东方明珠
+  37: ['tram_direct','rain_ok','parking'],                  // 百联中环
+  38: ['tram_direct','rain_ok','stroller','free'],          // 晶耀前滩
+  39: ['tram_direct','rain_ok','food','photo'],             // 前滩太古里
+  40: ['tram_direct','rain_ok','parking','food'],           // 南翔印象城
+  41: ['tram_direct','rain_ok','parking'],                  // 长风大悦城
+  42: ['tram_direct','rain_ok','stroller'],                 // 虹桥南丰城
+  43: ['tram_direct','rain_ok','stroller','parking'],       // 荟聚
+  44: ['tram_direct','photo','hidden_gem'],                 // 西岸梦中心
+  45: ['tram_direct','rain_ok','parking'],                  // 维璟印象城
+  46: ['tram_direct','rain_ok','food'],                     // 合生汇
+  47: ['tram_direct','stroller'],                           // 长宁来福士
+  48: ['tram_direct','rain_ok','food'],                     // 徐汇万科
+  49: ['tram_direct','rain_ok','low_cost'],                 // 创邑MIX
+  50: ['tram_direct','rain_ok','parking'],                  // 世博源
+  51: ['tram_direct','rain_ok','stroller','wheelchair'],    // 儿童博物馆
+  52: ['tram_direct','rain_ok','hidden_gem'],               // 世界技能博物馆
+  53: ['tram_direct','rain_ok'],                            // 消防博物馆
+  54: ['tram_direct','rain_ok','photo'],                    // 邮政博物馆
+  55: ['tram_direct','rain_ok'],                            // 动漫博物馆
+  56: ['tram_direct','rain_ok','hidden_gem'],               // 气象博物馆
+  57: ['tram_direct','rain_ok'],                            // 铁路博物馆
+  58: ['tram_direct','rain_ok','hidden_gem'],               // 昆虫博物馆
+  59: ['tram_direct','rain_ok'],                            // 地铁博物馆
+  60: ['tram_direct','rain_ok','stroller','nursing_room'],  // 少儿图书馆长风
+  61: ['tram_direct','rain_ok'],                            // 少儿图书馆南西
+  62: ['tram_direct','rain_ok'],                            // 浦东图书馆少儿
+  63: ['tram_direct','rain_ok','photo','hidden_gem'],       // 嘉定图书馆
+  64: ['parking','rain_ok','stroller','wheelchair'],        // 汽车博物馆
+  65: ['tram_direct','rain_ok','stroller'],                 // 昆虫馆
+  66: ['tram_direct','rain_ok','low_cost'],                 // 百诺巧克力
+  67: ['tram_direct','rain_ok','photo'],                    // 徐家汇书院
+  68: ['tram_direct','rain_ok','photo','wheelchair'],       // 上图东馆
+  69: ['tram_direct','rain_ok','photo','hidden_gem'],       // 青浦图书馆
+  72: ['tram_direct','big_lawn','stroller','photo'],        // 前滩粉红沙滩
+  73: ['tram_direct','big_lawn','stroller','rain_ok'],      // 大宁白沙滩
+  74: ['tram_direct','big_lawn','stroller','photo'],        // 西岸自然艺术公园
+  75: ['tram_direct','big_lawn','stroller','rain_ok'],      // 半马苏河星球乐园
+  78: ['tram_direct','big_lawn','stroller'],                // 上海之鱼泡泡公园
+  86: ['tram_direct','big_lawn','stroller','pet_friendly'],  // 蟠龙天地
+  164: ['tram_direct','photo','stroller'],                  // 西岸滑板攀岩
+  165: ['tram_direct','photo','stroller'],                  // 杨浦滨江
+  166: ['tram_direct','photo','stroller'],                  // 黄浦滨江
+  169: ['tram_direct','food','low_cost'],                   // 七宝古镇
+  171: ['tram_direct','food','photo','pet_friendly'],       // 朱家角古镇
+  174: ['tram_direct','food','low_cost'],                   // 南翔老街
+  189: ['parking','big_lawn','stroller','pet_friendly'],    // 长兴岛郊野
+  191: ['tram_direct','rain_ok','air_con','wheelchair'],    // 世博会博物馆
+  192: ['tram_direct','rain_ok','air_con','photo'],         // 浦东美术馆
+  193: ['tram_direct','rain_ok','air_con'],                 // 民生现代美术馆
+  194: ['tram_direct','rain_ok','air_con','low_cost'],      // 新闻出版博物馆
+  195: ['tram_direct','rain_ok','air_con','stroller'],      // 西岸美术馆
+  196: ['tram_direct','rain_ok','air_con','photo'],         // 温室花园
+  197: ['tram_direct','rain_ok','low_cost','photo'],        // 海绵宝宝展
+  198: ['parking','photo','stroller','crowd_warn'],         // 太阳岛水乐园
+};
+
+// Honest reviews for key venues
+const VENUE_HONEST_REVIEWS = {
+  1: [
+    { rating: 'mixed', text: '拍照绝绝子但暑假人山人海，热门项目排队1-2小时。建议工作日去或买尊享卡。性价比看个人，孩子开心就行。', author: '二宝妈·浦东' },
+    { rating: 'good', text: '十周年庆典值得一看，城堡秀和花车巡游焕新。周五周六加时到22:30，夜场氛围好。', author: '迪士尼忠实粉' },
+  ],
+  2: [
+    { rating: 'mixed', text: '20万㎡空调房夏天遛娃舒服，但位置太远（临港），来回3小时。虎鲸表演值得看，其他项目偏少。门票原价贵，特惠票才划算。', author: '精打细算妈' },
+    { rating: 'good', text: '夜场无人机烟花震撼！6.27-8.31连续66天，卡皮巴拉萌趣乐园新增，低龄宝宝也有玩点。', author: '临港本地宝妈' },
+  ],
+  3: [
+    { rating: 'mixed', text: 'EV音乐乐园氛围好但偏年轻人，亲子项目不多。7/18徐秉龙等艺人空降值得追，但人多排队久。', author: '松弛感妈妈' },
+  ],
+  4: [
+    { rating: 'good', text: '加菲猫主题街区拍照可爱！8米巨型加菲猫孩子尖叫。夜场99元套票性价比不错，周末人不多反而是优势。', author: '闵行区妈妈' },
+  ],
+  5: [
+    { rating: 'mixed', text: '2-12岁孩子天堂！但门票339起步偏高，金山偏远自驾1.5小时。园区不大但内容丰富，建议早点到玩一天。', author: '金山自驾妈' },
+  ],
+  8: [
+    { rating: 'good', text: '85%展陈更新后重回遛娃顶流！球幕秀和VR剧场超受欢迎但排队久。奇骥奔腾有奖互动孩子喜欢，建议9点开门就进。', author: '科技馆常客' },
+    { rating: 'mixed', text: '7/11-13未来科学论坛大咖云集，但偏学术。日常展区适合3-12岁，0-3岁可玩区域偏少。', author: '理科妈妈' },
+  ],
+  9: [
+    { rating: 'good', text: '恐龙VR展孩子尖叫！夜宿博物馆要提前抢名额但超值得。周六延时到20点适合上班族，门票30元白菜价。', author: '夜宿体验者' },
+    { rating: 'mixed', text: '蚊虫注意！户外区域多，夏天必带驱蚊液。VR展另收费，全体验下来费用不低。', author: '避坑侠' },
+  ],
+  14: [
+    { rating: 'mixed', text: '蛋仔派对IP联动有趣！夜场票99元性价比超高。但暑期人多排队长，车入区一定要坐免费大巴。', author: '动物迷妈妈' },
+    { rating: 'good', text: '夜探猛兽区刺激又安全，科普夜游有专业讲解。低至6折预售值得蹲。', author: '夜公园爱好者' },
+  ],
+  15: [
+    { rating: 'good', text: '40元门票性价比不错！动物奇妙夜值得体验但名额有限需预约。蚊虫多必须带驱蚊液！', author: '西郊公园常客' },
+  ],
+  18: [
+    { rating: 'mixed', text: '40+水上项目夏天必去！但排队久、换衣间拥挤。建议自带浴巾和防水袋。水质OK但人多时体验下降。', author: '水上乐园达人' },
+    { rating: 'good', text: '深海龙宫NPC天团有趣，六大亲子闯关适合3-8岁。与欢乐谷联动白天玩水+夜晚嗨歌组合不错。', author: '佘山度假区粉丝' },
+  ],
+  19: [
+    { rating: 'mixed', text: '夏天室内滑雪解暑神器！但滑雪219元起步不便宜。水世界99元性价比高，245米漂流河道孩子喜欢。位置偏远（临港）。', author: '冰雪爱好者' },
+  ],
+  20: [
+    { rating: 'good', text: '夏日奇幻夜国创IP联动很潮！九曲桥AR打卡有趣，NPC互动沉浸感强。免费进入性价比高。', author: '二次元妈妈' },
+    { rating: 'mixed', text: '人流量大周末挤，但夜场氛围好。非遗手作沙龙值得参加。', author: '老上海人' },
+  ],
+  23: [
+    { rating: 'good', text: '20元门票性价比极高！泼水活动7/13启动，荷花盛花期正好。', author: '宝山妈妈' },
+    { rating: 'mixed', text: '蚊子极多！必须带驱蚊液，否则孩子被咬惨。免费区域大但设施偏旧。', author: '避坑侠' },
+  ],
+  191: [
+    { rating: 'good', text: '国采展故宫服饰101件近九成首次出京，震撼！早鸟58元对故宫级别展览来说很值。', author: '文化妈妈' },
+    { rating: 'mixed', text: '偏成人视角，6岁以下孩子可能无聊。建议带讲解器或参加亲子导览。', author: '故宫粉' },
+  ],
+  195: [
+    { rating: 'good', text: '恐龙沉浸式观展亚洲首展！近1小时沉浸体验孩子全程尖叫。西岸滨江遛娃一条线。', author: '恐龙迷妈妈' },
+  ],
+  197: [
+    { rating: 'good', text: '免费！73个鱼鱼居民造型可爱，17米瘫瘫鱼气模拍照绝绝子。双城联动集章打卡有礼品。', author: '海绵宝宝粉' },
+    { rating: 'mixed', text: '周末人多，建议工作日上午去。B1层快闪店限定周边价格偏高。', author: '理性消费者' },
+  ],
+  198: [
+    { rating: 'good', text: '5月新开业！18000㎡沙滩水乐园超惊艳，海狮表演每日4场孩子尖叫。69元/人性价比高。', author: '青浦探店达人' },
+    { rating: 'mixed', text: '自驾约1小时，公共交通不太方便。岛上还有萌宠乐园、卡丁车可以玩一整天。', author: '自驾遛娃族' },
+  ],
+};
+
 const CATEGORIES = {
   'theme_park': { name: '主题乐园', color: '#f0a060' },
   'museum': { name: '博物馆/展览', color: '#5b9bd5' },
@@ -2447,697 +2730,811 @@ const VENUES = [
   },
 ];
 
-// Active filters state
-let activeFilters = { categories: [], districts: [], ages: ['0-3','3-6'], others: ['free'] };
-let weatherMode = 'sunny'; // 'sunny' | 'rainy'
-let venueType = 'all'; // 'all' | 'indoor' | 'outdoor'
-let selectedDate = new Date().toISOString().split('T')[0];
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
-let currentView = 'calendar';
-let searchQuery = '';
-let liveWeatherData = null;
-let weatherAutoMode = true; // auto-connect weather to venue filtering
-
-// ==================== WEATHER (Open-Meteo API) ====================
-// WMO Weather codes → { icon, desc_zh, isRain }
-const WMO_CODES = {
-  0:  { icon: '☀️', zh: '晴天', rain: false },
-  1:  { icon: '🌤️', zh: '大部晴朗', rain: false },
-  2:  { icon: '⛅', zh: '多云', rain: false },
-  3:  { icon: '☁️', zh: '阴天', rain: false },
-  45: { icon: '🌫️', zh: '雾', rain: false },
-  48: { icon: '🌫️', zh: '冻雾', rain: false },
-  51: { icon: '🌦️', zh: '小毛毛雨', rain: true },
-  53: { icon: '🌦️', zh: '毛毛雨', rain: true },
-  55: { icon: '🌧️', zh: '大毛毛雨', rain: true },
-  56: { icon: '🌧️', zh: '冻毛毛雨', rain: true },
-  57: { icon: '🌧️', zh: '冻毛毛雨', rain: true },
-  61: { icon: '🌧️', zh: '小雨', rain: true },
-  63: { icon: '🌧️', zh: '中雨', rain: true },
-  65: { icon: '🌧️', zh: '大雨', rain: true },
-  66: { icon: '🌧️', zh: '冻雨', rain: true },
-  67: { icon: '🌧️', zh: '冻雨', rain: true },
-  71: { icon: '🌨️', zh: '小雪', rain: false },
-  73: { icon: '🌨️', zh: '中雪', rain: false },
-  75: { icon: '❄️', zh: '大雪', rain: false },
-  77: { icon: '❄️', zh: '雪粒', rain: false },
-  80: { icon: '🌦️', zh: '阵雨', rain: true },
-  81: { icon: '🌧️', zh: '中阵雨', rain: true },
-  82: { icon: '⛈️', zh: '大阵雨', rain: true },
-  85: { icon: '🌨️', zh: '小阵雪', rain: false },
-  86: { icon: '🌨️', zh: '大阵雪', rain: false },
-  95: { icon: '⛈️', zh: '雷暴', rain: true },
-  96: { icon: '⛈️', zh: '雷暴+小冰雹', rain: true },
-  99: { icon: '⛈️', zh: '雷暴+大冰雹', rain: true },
+// ==================== STATE ====================
+const state = {
+  search: '',
+  category: 'all',
+  district: 'all',
+  venueType: 'all',
+  weather: 'sunny',
+  ageMin: 1,
+  ageMax: 6,
+  featureTags: new Set(),
+  itinerary: [],
+  sortBy: null,
 };
 
-function getWmoInfo(code) {
-  return WMO_CODES[code] || { icon: '🌤️', zh: '未知', rain: false };
+// DOM refs
+const $ = (id) => document.getElementById(id);
+const masonryGrid = $('masonryGrid');
+const resultCount = $('resultCount');
+const hoverPreview = $('hoverPreview');
+
+// ==================== DATE ====================
+function initDate() {
+  const now = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  $('dateBadge').textContent = now.getMonth()+1 + '月' + now.getDate() + '日 周' + days[now.getDay()];
 }
 
+// ==================== WEATHER ====================
 async function fetchWeather() {
-  const el = document.getElementById('liveWeather');
   try {
-    // Prefer embedded data from server, fallback to direct API call
-    let data;
-    if (window.__WEATHER_DATA__) {
-      data = window.__WEATHER_DATA__;
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=31.2304&longitude=121.4737&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=relative_humidity_2m&timezone=Asia/Shanghai&forecast_days=1';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Weather API error');
+    const data = await res.json();
+    const temp = Math.round(data.current.temperature_2m);
+    const humidity = data.hourly.relative_humidity_2m[new Date().getHours()] || data.current.relative_humidity_2m;
+    const wind = Math.round(data.current.wind_speed_10m);
+    const feels = Math.round(data.current.apparent_temperature);
+    const code = data.current.weather_code;
+    let icon = 'cloud', cond = '多云';
+    if (code <= 3) { icon = 'sun'; cond = code === 0 ? '晴' : '多云'; }
+    else if (code <= 48) { icon = 'fog'; cond = '雾'; }
+    else if (code <= 67) { icon = 'rain'; cond = '雨'; }
+    else if (code <= 77) { icon = 'snow'; cond = '雪'; }
+    else { icon = 'storm'; cond = '雷阵雨'; }
+    const iconMap = { sun: '☀️', cloud: '⛅', fog: '🌫️', rain: '🌧️', snow: '🌨️', storm: '⛈️' };
+
+    // Update sidebar weather
+    const wm = $('weatherMini');
+    wm.querySelector('.wm-temp').textContent = temp + '°';
+    wm.querySelector('.wm-cond').innerHTML = '<span>' + iconMap[icon] + '</span> ' + cond + ' 体感' + feels + '°';
+    wm.querySelector('.wm-detail').textContent = '湿度 ' + humidity + '% 风速 ' + wind + 'km/h';
+
+    // Update header weather
+    const hw = $('headerWeather');
+    hw.innerHTML = '<span class="hw-icon">' + iconMap[icon] + '</span><span class="hw-temp">' + temp + '°</span>';
+
+    // Weather tip
+    const tip = $('wmTip');
+    if (temp >= 33) {
+      tip.textContent = '高温预警！注意防暑，推荐室内场馆';
+      tip.style.display = 'block';
+    } else if (icon === 'rain' || icon === 'storm') {
+      tip.textContent = '雨天推荐室内场馆和雨天避难标签';
+      tip.style.display = 'block';
+    } else if (temp <= 5) {
+      tip.textContent = '天冷注意保暖，多穿件衣服';
+      tip.style.display = 'block';
     } else {
-      const resp = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.23&longitude=121.47&current_weather=true&hourly=temperature_2m,relativehumidity_2m,precipitation_probability,weathercode,windspeed_10m&timezone=Asia/Shanghai&forecast_days=2', { cache: 'no-store' });
-      if (!resp.ok) throw new Error('API error ' + resp.status);
-      data = await resp.json();
+      tip.style.display = 'none';
     }
-    liveWeatherData = data;
-    updateWeatherUI(data);
-    updateHeaderWeather(data);
-    if (weatherAutoMode) connectWeatherToVenues(data);
-    el.classList.remove('loading');
+
+    // Auto-select weather mode
+    if (icon === 'rain' || icon === 'storm' || icon === 'snow') {
+      setWeatherMode('rainy', false);
+    } else {
+      setWeatherMode('sunny', false);
+    }
   } catch (e) {
-    console.warn('Weather fetch failed:', e.message);
-    el.innerHTML = '<div class="weather-error">⚠️ 天气加载失败，<a href="#" onclick="fetchWeather();return false" style="color:var(--accent)">点此重试</a></div>';
-    el.classList.remove('loading');
-    document.getElementById('headerWeather').innerHTML = '<span class="hw-icon">🌤️</span><span class="hw-temp">--°</span><span class="hw-desc">离线</span>';
+    console.log('Weather fetch failed:', e);
   }
 }
 
-function updateWeatherUI(data) {
-  const cw = data.current_weather;
-  const temp = cw.temperature;
-  const code = cw.weathercode;
-  const wspeed = cw.windspeed;
-  const info = getWmoInfo(code);
-  const rainy = info.rain;
-
-  // Get current hour index in hourly array
-  const now = new Date();
-  const nowHour = now.getHours();
-  const hourly = data.hourly;
-  const todayStart = now.toISOString().split('T')[0];
-  let currentIdx = 0;
-  for (let i = 0; i < hourly.time.length; i++) {
-    const h = new Date(hourly.time[i] + ':00');
-    if (h.getHours() === nowHour && h.toISOString().split('T')[0] === todayStart) {
-      currentIdx = i;
-      break;
-    }
-  }
-
-  // Get humidity and precip prob from hourly
-  const humidity = hourly.relativehumidity_2m?.[currentIdx] ?? '--';
-  const precipProb = hourly.precipitation_probability?.[currentIdx] ?? 0;
-
-  // Build forecast: pick 3 future timeslots
-  let forecastHtml = '';
-  for (let i = 1; i <= 4; i++) {
-    const idx = currentIdx + i * 2;
-    if (idx < hourly.time.length) {
-      const t = hourly.time[idx];
-      const h = new Date(t + ':00');
-      const fcode = hourly.weathercode[idx];
-      const ftemp = hourly.temperature_2m[idx];
-      const finfo = getWmoInfo(fcode);
-      forecastHtml += `
-        <div class="weather-forecast-day">
-          <span class="fd-icon">${finfo.icon}</span>
-          <span class="fd-date">${h.getHours()}:00</span>
-          <span class="fd-hi">${ftemp}°</span>
-        </div>`;
-    }
-  }
-
-  const container = document.getElementById('liveWeather');
-  container.innerHTML = `
-    <div class="weather-main">
-      <span class="weather-temp">${temp}°</span>
-      <div class="weather-info">
-        <div class="weather-condition"><span class="w-icon">${info.icon}</span> ${info.zh}</div>
-        <div class="weather-detail">
-          <span>💧 ${humidity}%</span><span>🌬️ ${wspeed}km/h</span><span>🌧️ ${precipProb}%</span>
-        </div>
-      </div>
-    </div>
-    <div class="weather-forecast-row">${forecastHtml}</div>
-    <div class="weather-tip" id="weatherTip" style="display:${rainy ? 'flex' : 'none'}">
-      💡 当前有雨，已自动切换为室内场馆推荐
-      <span style="margin-left:auto;cursor:pointer;text-decoration:underline;font-size:10px;opacity:0.7" onclick="weatherAutoMode=false;setWeather('sunny');document.getElementById('weatherTip').style.display='none'">关掉</span>
-    </div>`;
-
-  if (rainy && weatherAutoMode && weatherMode !== 'rainy') {
-    setWeather('rainy');
-  }
-}
-
-function updateHeaderWeather(data) {
-  const cw = data.current_weather;
-  const temp = cw.temperature;
-  const code = cw.weathercode;
-  const info = getWmoInfo(code);
-
-  const el = document.getElementById('headerWeather');
-  el.className = 'header-weather ' + (info.rain ? 'rainy' : 'sunny');
-  el.innerHTML = `<span class="hw-icon">${info.icon}</span><span class="hw-temp">${temp}°</span><span class="hw-desc">${info.zh}</span>`;
-}
-
-function connectWeatherToVenues(data) {
-  const cw = data.current_weather;
-  const info = getWmoInfo(cw.weathercode);
-
-  if (info.rain) {
-    setWeather('rainy');
-    setVenueType('indoor');
-  }
-}
-
-// ==================== INIT ====================
-function init() {
-  renderSidebar();
-  updateDateBadge();
-  renderCalendar();
-  showEventsForDate(selectedDate);
-  fetchWeather();
-}
-
-function updateDateBadge() {
-  const now = new Date();
-  const weekdays = ['日','一','二','三','四','五','六'];
-  document.getElementById('dateBadge').textContent = 
-    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 星期${weekdays[now.getDay()]}`;
-}
-
-// ==================== SIDEBAR ====================
-function renderSidebar() {
-  // Age filters — moved to top
-  let ageHtml = '<span class="chip" onclick="toggleFilter(\'ages\', \'all\', this)">不限</span>';
-  AGE_RANGES.forEach(a => {
-    const isActive = activeFilters.ages.includes(a.id);
-    ageHtml += `<span class="chip${isActive ? ' active' : ''}" onclick="toggleFilter('ages', '${a.id}', this)">${a.name}</span>`;
-  });
-  document.getElementById('ageFilters').innerHTML = ageHtml;
-
-  // Category filters
-  let catHtml = '<span class="chip active" onclick="toggleFilter(\'categories\', \'all\', this)">全部</span>';
-  Object.entries(CATEGORIES).forEach(([key, val]) => {
-    catHtml += `<span class="chip" onclick="toggleFilter('categories', '${key}', this)">${val.name}</span>`;
-  });
-  document.getElementById('categoryFilters').innerHTML = catHtml;
-
-  // District filters — collapsed, each district as individual chip
-  let regionHtml = '<span class="chip active" onclick="toggleFilter(\'districts\', \'all\', this)">全部</span>';
-  DISTRICTS.forEach(d => {
-    const isActive = activeFilters.districts.includes(d);
-    regionHtml += `<span class="chip${isActive ? ' active' : ''}" onclick="toggleFilter('districts', '${d}', this)">${d}</span>`;
-  });
-  document.getElementById('districtRegionFilters').innerHTML = regionHtml;
-
-  // Other filters
-  document.getElementById('otherFilters').innerHTML = `
-    <span class="chip" onclick="toggleFilter('others', 'all', this)">不限</span>
-    <span class="chip active" onclick="toggleFilter('others', 'free', this)">🆓 免费</span>
-    <span class="chip" onclick="toggleFilter('others', 'hasEvent', this)">🔥 有活动</span>
-  `;
-
-  updateStats();
-}
-
-function toggleFilter(group, value, el) {
-  if (value === 'all') {
-    activeFilters[group] = [];
-    const chips = el.parentElement.querySelectorAll('.chip');
-    chips.forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-  } else {
-    // Deactivate "all" chip
-    const allChip = el.parentElement.querySelector('.chip');
-    allChip.classList.remove('active');
-    
-    if (activeFilters[group].includes(value)) {
-      activeFilters[group] = activeFilters[group].filter(v => v !== value);
-      el.classList.remove('active');
-      if (activeFilters[group].length === 0) {
-        allChip.classList.add('active');
-      }
-    } else {
-      activeFilters[group].push(value);
-      el.classList.add('active');
-    }
-  }
-  applyFilters();
-}
-
-let districtExpanded = true;
-function toggleDistrictExpand() {
-  districtExpanded = !districtExpanded;
-  const collapse = document.getElementById('districtCollapse');
-  const arrow = document.getElementById('districtArrow');
-  collapse.style.display = districtExpanded ? 'block' : 'none';
-  arrow.classList.toggle('open', districtExpanded);
-}
-
-function setWeather(mode) {
-  weatherMode = mode;
-  document.getElementById('weatherSunny').classList.toggle('active', mode === 'sunny');
-  document.getElementById('weatherRainy').classList.toggle('active', mode === 'rainy');
-  applyFilters();
+function setWeatherMode(mode, reapply) {
+  state.weather = mode;
+  document.querySelectorAll('.weather-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector('.weather-btn.' + mode);
+  if (btn) btn.classList.add('active');
+  if (reapply !== false) applyFilters();
 }
 
 function manualSetWeather(mode) {
-  weatherAutoMode = false;
-  // Hide weather tip
-  const tip = document.getElementById('weatherTip');
-  if (tip) tip.style.display = 'none';
-  setWeather(mode);
-}
-
-function setVenueType(type) {
-  venueType = type;
-  document.getElementById('vtypeAll').classList.toggle('active', type === 'all');
-  document.getElementById('vtypeIndoor').classList.toggle('active', type === 'indoor');
-  document.getElementById('vtypeOutdoor').classList.toggle('active', type === 'outdoor');
-  applyFilters();
+  setWeatherMode(mode, true);
 }
 
 function manualSetVenueType(type) {
-  weatherAutoMode = false;
-  const tip = document.getElementById('weatherTip');
-  if (tip) tip.style.display = 'none';
-  setVenueType(type);
+  state.venueType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector('.type-btn.' + type);
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+// ==================== AGE SLIDER ====================
+function initAgeSlider() {
+  const track = $('ageSliderTrack');
+  const thumbMin = $('ageSliderThumbMin');
+  const thumbMax = $('ageSliderThumbMax');
+  const fill = $('ageSliderFill');
+  const valuesLabel = $('ageSliderValues');
+  const MIN_VAL = 0, MAX_VAL = 18;
+
+  function updateSlider() {
+    const minPct = (state.ageMin / MAX_VAL) * 100;
+    const maxPct = (state.ageMax / MAX_VAL) * 100;
+    thumbMin.style.left = 'calc(' + minPct + '% - 8px)';
+    thumbMax.style.left = 'calc(' + maxPct + '% - 8px)';
+    fill.style.left = minPct + '%';
+    fill.style.width = (maxPct - minPct) + '%';
+    const minLabel = state.ageMin === 0 ? '0' : (state.ageMin < 1 ? state.ageMin : state.ageMin);
+    const maxLabel = state.ageMax >= MAX_VAL ? '18+' : state.ageMax;
+    valuesLabel.textContent = (Number.isInteger(state.ageMin) ? state.ageMin : state.ageMin.toFixed(1)) + '岁 ~ ' + (Number.isInteger(state.ageMax) ? state.ageMax : state.ageMax.toFixed(1)) + '岁';
+  }
+
+  function startDrag(thumb, isMin) {
+    thumb.classList.add('dragging');
+    const trackRect = track.getBoundingClientRect();
+
+    function onMove(e) {
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      let pct = (clientX - trackRect.left) / trackRect.width;
+      pct = Math.max(0, Math.min(1, pct));
+      let val = Math.round(pct * MAX_VAL * 2) / 2; // 0.5 step
+      if (isMin) {
+        val = Math.min(val, state.ageMax - 0.5);
+        state.ageMin = val;
+      } else {
+        val = Math.max(val, state.ageMin + 0.5);
+        state.ageMax = val;
+      }
+      updateSlider();
+      applyFilters();
+    }
+
+    function onEnd() {
+      thumb.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onEnd);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onEnd);
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd);
+  }
+
+  thumbMin.addEventListener('mousedown', (e) => { e.preventDefault(); startDrag(thumbMin, true); });
+  thumbMax.addEventListener('mousedown', (e) => { e.preventDefault(); startDrag(thumbMax, false); });
+  thumbMin.addEventListener('touchstart', (e) => { e.preventDefault(); startDrag(thumbMin, true); }, { passive: false });
+  thumbMax.addEventListener('touchstart', (e) => { e.preventDefault(); startDrag(thumbMax, false); }, { passive: false });
+
+  updateSlider();
+}
+
+// ==================== VENUE TAGS ====================
+function getVenueTags(venue) {
+  const tags = new Set();
+  const extra = VENUE_EXTRA_TAGS[venue.id] || [];
+  extra.forEach(t => tags.add(t));
+
+  // Auto-derived tags
+  if (venue.indoor) tags.add('rain_ok');
+  if (venue.free) tags.add('low_cost');
+  if (venue.transport && venue.transport.includes('地铁')) tags.add('tram_direct');
+
+  return tags;
+}
+
+// ==================== AGE RANGE MATCHING ====================
+function parseMinAge(rangeId) {
+  if (rangeId === 'all') return 0;
+  if (rangeId === '12+') return 12;
+  return parseInt(rangeId.split('-')[0]) || 0;
+}
+
+function parseMaxAge(rangeId) {
+  if (rangeId === 'all') return 18;
+  if (rangeId === '12+') return 18;
+  return parseInt(rangeId.split('-')[1]) || 18;
+}
+
+function venueMatchesAge(venue) {
+  if (!venue.ageRange || venue.ageRange.length === 0) return true;
+  for (const range of venue.ageRange) {
+    const vMin = parseMinAge(range);
+    const vMax = parseMaxAge(range);
+    // Check overlap between [vMin, vMax] and [state.ageMin, state.ageMax]
+    if (vMin <= state.ageMax && vMax >= state.ageMin) return true;
+  }
+  return false;
+}
+
+// ==================== SIDEBAR RENDERING ====================
+function renderSidebar() {
+  // Categories
+  const catContainer = $('categoryFilters');
+  let catHtml = '<span class="chip active" data-cat="all" onclick="selectCategory(\'all\')">全部</span>';
+  for (const [key, cat] of Object.entries(CATEGORIES)) {
+    catHtml += '<span class="chip" data-cat="' + key + '" onclick="selectCategory(\'' + key + '\')" style="border-color:' + cat.color + '33">' + cat.name + '</span>';
+  }
+  catContainer.innerHTML = catHtml;
+
+  // Districts (by region)
+  const distContainer = $('districtFilters');
+  let distHtml = '<span class="chip active" data-dist="all" onclick="selectDistrict(\'all\')">全部</span>';
+  for (const region of DISTRICT_REGIONS) {
+    distHtml += '<span class="chip" data-dist-region="' + region.id + '" onclick="selectDistrictRegion(\'' + region.id + '\')" style="font-size:10px;background:' + 'var(--bg-cream)' + '">' + region.name + '</span>';
+  }
+  distHtml += '<br style="line-height:6px">';
+  // Also add individual districts
+  for (const d of DISTRICTS) {
+    distHtml += '<span class="chip" data-dist="' + d + '" onclick="selectDistrict(\'' + d + '\')" style="font-size:10px">' + d.replace('区','') + '</span>';
+  }
+  distContainer.innerHTML = distHtml;
+
+  // Feature tags
+  const ftagContainer = $('featureTagFilters');
+  let ftagHtml = '';
+  for (const tag of FEATURE_TAGS) {
+    ftagHtml += '<span class="ftag" data-ftag="' + tag.id + '" onclick="toggleFeatureTag(\'' + tag.id + '\')"><span class="ftag-icon">' + tag.icon + '</span>' + tag.name + '</span>';
+  }
+  ftagContainer.innerHTML = ftagHtml;
+}
+
+function selectCategory(cat) {
+  state.category = cat;
+  document.querySelectorAll('[data-cat]').forEach(el => el.classList.remove('active'));
+  const el = document.querySelector('[data-cat="' + cat + '"]');
+  if (el) el.classList.add('active');
+  // Clear district region selection when selecting category
+  applyFilters();
+}
+
+function selectDistrict(dist) {
+  state.district = dist;
+  document.querySelectorAll('[data-dist]').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('[data-dist-region]').forEach(el => el.classList.remove('active'));
+  const el = document.querySelector('[data-dist="' + dist + '"]');
+  if (el) el.classList.add('active');
+  applyFilters();
+}
+
+function selectDistrictRegion(regionId) {
+  const region = DISTRICT_REGIONS.find(r => r.id === regionId);
+  if (!region) return;
+  state.district = 'region:' + regionId;
+  document.querySelectorAll('[data-dist]').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('[data-dist-region]').forEach(el => el.classList.remove('active'));
+  const el = document.querySelector('[data-dist-region="' + regionId + '"]');
+  if (el) el.classList.add('active');
+  applyFilters();
+}
+
+function toggleFeatureTag(tagId) {
+  if (state.featureTags.has(tagId)) {
+    state.featureTags.delete(tagId);
+  } else {
+    state.featureTags.add(tagId);
+  }
+  const el = document.querySelector('[data-ftag="' + tagId + '"]');
+  if (el) el.classList.toggle('active');
+  applyFilters();
 }
 
 // ==================== FILTERING ====================
 function getFilteredVenues() {
-  return VENUES.filter(v => {
-    // Weather mode filter
-    if (weatherMode === 'rainy' && !v.indoor) return false;
-    // Venue type filter
-    if (venueType === 'indoor' && !v.indoor) return false;
-    if (venueType === 'outdoor' && v.indoor) return false;
-    // Category filter
-    if (activeFilters.categories.length > 0 && !activeFilters.categories.includes(v.category)) return false;
-    // District filter
-    if (activeFilters.districts.length > 0 && !activeFilters.districts.includes(v.district)) return false;
-    // Age filter
-    if (activeFilters.ages.length > 0 && !activeFilters.ages.some(a => v.ageRange.includes(a))) return false;
-    // Other filters
-    if (activeFilters.others.includes('free') && !v.free) return false;
-    if (activeFilters.others.includes('hasEvent') && v.events.length === 0) return false;
+  let results = VENUES.filter(v => {
     // Search
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      const searchStr = `${v.name} ${v.district} ${v.desc} ${v.address} ${CATEGORIES[v.category]?.name || ''}`.toLowerCase();
-      if (!searchStr.includes(q)) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      const haystack = (v.name + v.desc + v.district + v.address + (v.ticket || '') + (v.events ? v.events.map(e => e.title).join(' ') : '')).toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    // Category
+    if (state.category !== 'all' && v.category !== state.category) return false;
+    // District
+    if (state.district !== 'all') {
+      if (state.district.startsWith('region:')) {
+        const regionId = state.district.split(':')[1];
+        const region = DISTRICT_REGIONS.find(r => r.id === regionId);
+        if (region && !region.districts.includes(v.district)) return false;
+      } else if (v.district !== state.district) return false;
+    }
+    // Venue type
+    if (state.venueType === 'indoor' && !v.indoor) return false;
+    if (state.venueType === 'outdoor' && v.indoor) return false;
+    // Weather
+    if (state.weather === 'rainy') {
+      if (!v.indoor) return false;
+    }
+    // Age
+    if (!venueMatchesAge(v)) return false;
+    // Feature tags
+    if (state.featureTags.size > 0) {
+      const vTags = getVenueTags(v);
+      for (const t of state.featureTags) {
+        if (!vTags.has(t)) return false;
+      }
     }
     return true;
   });
+
+  // Sorting
+  if (state.sortBy === 'event') {
+    results.sort((a, b) => {
+      const aHas = a.events && a.events.length > 0 ? 1 : 0;
+      const bHas = b.events && b.events.length > 0 ? 1 : 0;
+      return bHas - aHas;
+    });
+  } else if (state.sortBy === 'free') {
+    results.sort((a, b) => {
+      if (a.free && !b.free) return -1;
+      if (!a.free && b.free) return 1;
+      return 0;
+    });
+  } else if (state.sortBy === 'near') {
+    results.sort((a, b) => {
+      const aRegion = DISTRICT_REGIONS.findIndex(r => r.districts.includes(a.district));
+      const bRegion = DISTRICT_REGIONS.findIndex(r => r.districts.includes(b.district));
+      return aRegion - bRegion;
+    });
+  }
+
+  return results;
 }
 
 function applyFilters() {
-  searchQuery = document.getElementById('searchInput')?.value || '';
+  state.search = $('searchInput').value.trim();
+  const filtered = getFilteredVenues();
+  renderMasonry(filtered);
   updateStats();
-  if (currentView === 'calendar') {
-    renderCalendar();
-    showEventsForDate(selectedDate);
+}
+
+function sortVenues(sortBy) {
+  if (state.sortBy === sortBy) {
+    state.sortBy = null;
   } else {
-    renderListView();
+    state.sortBy = sortBy;
   }
+  // Update button styles
+  ['sortEvent','sortFree','sortNear'].forEach(id => {
+    $(id).style.background = '';
+    $(id).style.color = '';
+  });
+  if (state.sortBy) {
+    const btnId = sortBy === 'event' ? 'sortEvent' : sortBy === 'free' ? 'sortFree' : 'sortNear';
+    $(btnId).style.background = 'var(--accent-light)';
+    $(btnId).style.color = 'var(--accent)';
+  }
+  applyFilters();
 }
 
+// ==================== STATS ====================
 function updateStats() {
-  const filtered = getFilteredVenues();
-  const allVenues = VENUES;
-  document.getElementById('statVenues').textContent = allVenues.length;
-  
-  const allEvents = allVenues.reduce((sum, v) => sum + v.events.length, 0);
-  document.getElementById('statEvents').textContent = allEvents;
-  
-  const freeVenues = allVenues.filter(v => v.free).length;
-  document.getElementById('statFree').textContent = freeVenues;
-  
-  const today = new Date().toISOString().split('T')[0];
-  const todayEvents = allVenues.reduce((sum, v) => sum + v.events.filter(e => e.date === today).length, 0);
-  document.getElementById('statToday').textContent = todayEvents;
-}
-
-// ==================== CALENDAR ====================
-function renderCalendar() {
-  const grid = document.getElementById('calendarGrid');
-  const title = document.getElementById('calendarMonthTitle');
-  
-  const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  title.textContent = `${currentYear}年${months[currentMonth]}`;
-  
-  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
-  
-  const today = new Date().toISOString().split('T')[0];
-  
-  // Day headers
-  const dayNames = ['日','一','二','三','四','五','六'];
-  let html = dayNames.map((d, i) => 
-    `<div class="day-header${i === 0 || i === 6 ? ' weekend' : ''}">${d}</div>`
-  ).join('');
-  
-  // Previous month days
-  for (let i = firstDay - 1; i >= 0; i--) {
-    const day = prevMonthDays - i;
-    html += `<div class="day-cell other-month"><div class="day-num">${day}</div></div>`;
+  $('statVenues').textContent = VENUES.length;
+  let eventCount = 0, freeCount = 0;
+  for (const v of VENUES) {
+    if (v.events && v.events.length > 0) eventCount += v.events.length;
+    if (v.free) freeCount++;
   }
-  
-  // Current month days
-  const filteredVenues = getFilteredVenues();
-  const eventMap = {};
-  filteredVenues.forEach(v => {
-    v.events.forEach(e => {
-      if (!eventMap[e.date]) eventMap[e.date] = [];
-      eventMap[e.date].push({ venue: v.name, title: e.title, cat: v.category });
-    });
-  });
-  
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const dayEvents = eventMap[dateStr] || [];
-    const isToday = dateStr === today;
-    const isSelected = dateStr === selectedDate;
-    const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
-    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-    
-    let cellClass = 'day-cell';
-    if (isToday) cellClass += ' today';
-    if (isSelected) cellClass += ' selected';
-    if (isWeekend) cellClass += ' weekend';
-    
-    let eventsHtml = dayEvents.slice(0, 3).map(e => {
-      const catColor = CATEGORIES[e.cat]?.color || '#8b8fa8';
-      return `<div class="day-event-dot" style="background:${catColor}22;color:${catColor};border-left:2px solid ${catColor}">${e.title}</div>`;
-    }).join('');
-    
-    if (dayEvents.length > 3) {
-      eventsHtml += `<div class="day-more">+${dayEvents.length - 3} 更多</div>`;
-    }
-    
-    html += `
-      <div class="${cellClass}" onclick="selectDate('${dateStr}')">
-        <div class="day-num">${day}</div>
-        <div class="day-events">${eventsHtml}</div>
-      </div>`;
-  }
-  
-  // Next month days
-  const totalCells = firstDay + daysInMonth;
-  const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-  for (let day = 1; day <= remainingCells; day++) {
-    html += `<div class="day-cell other-month"><div class="day-num">${day}</div></div>`;
-  }
-  
-  grid.innerHTML = html;
+  $('statEvents').textContent = eventCount;
+  $('statFree').textContent = freeCount;
 }
 
-function selectDate(dateStr) {
-  selectedDate = dateStr;
-  renderCalendar();
-  showEventsForDate(dateStr);
-}
-
-function prevMonth() {
-  if (currentMonth === 0) { currentMonth = 11; currentYear--; }
-  else currentMonth--;
-  renderCalendar();
-  showEventsForDate(selectedDate);
-}
-
-function nextMonth() {
-  if (currentMonth === 11) { currentMonth = 0; currentYear++; }
-  else currentMonth++;
-  renderCalendar();
-  showEventsForDate(selectedDate);
-}
-
-function goToToday() {
-  const today = new Date();
-  currentMonth = today.getMonth();
-  currentYear = today.getFullYear();
-  selectedDate = today.toISOString().split('T')[0];
-  renderCalendar();
-  showEventsForDate(selectedDate);
-}
-
-// ==================== EVENT DISPLAY ====================
-function showEventsForDate(dateStr) {
-  if (carouselTimer) { clearInterval(carouselTimer); carouselTimer = null; }
-  const filtered = getFilteredVenues();
-  const dateEvents = [];
-  
-  filtered.forEach(v => {
-    v.events.forEach(e => {
-      if (e.date === dateStr) {
-        dateEvents.push({ ...e, venue: v, venueName: v.name });
-      }
-    });
-  });
-  
-  // Also show venues that don't have date-specific events
-  const venueCards = showAllVenues ? filtered : [];
-  
-  const date = new Date(dateStr);
-  const weekdays = ['日','一','二','三','四','五','六'];
-  const dateLabel = `${date.getMonth()+1}月${date.getDate()}日 星期${weekdays[date.getDay()]}`;
-  document.getElementById('selectedDateLabel').textContent = dateLabel + (dateEvents.length > 0 ? ` — ${dateEvents.length} 个活动` : ' — 常驻推荐');
-
-  if (dateEvents.length === 0) {
-    // Show carousel of permanent free venues
-    const permanentVenues = filtered.filter(v => v.free);
-    if (permanentVenues.length === 0) {
-      document.getElementById('selectedDateCards').innerHTML = `
-        <div class="empty-state" style="grid-column:1/-1">
-          <div class="empty-icon">📭</div>
-          <p>当前筛选条件下暂无场馆</p>
-        </div>`;
-      return;
-    }
-    renderVenueCarousel(permanentVenues);
+// ==================== MASONRY RENDERING ====================
+function renderMasonry(venues) {
+  resultCount.textContent = ' · ' + venues.length + ' 个场馆';
+  if (venues.length === 0) {
+    masonryGrid.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>没有找到符合条件的场馆，试试调整筛选条件</p></div>';
     return;
   }
-
-  document.getElementById('selectedDateCards').innerHTML = dateEvents.map(e => renderEventCard(e)).join('');
-}
-
-let carouselIndex = 0;
-let carouselTimer = null;
-
-function renderVenueCarousel(venues) {
-  if (carouselTimer) clearInterval(carouselTimer);
-  carouselIndex = 0;
-  const total = venues.length;
-
-  const slidesHtml = venues.map((v, i) => {
-    const cat = CATEGORIES[v.category];
-    const ageText = v.ageRange.join('/');
-    return `
-      <div class="venue-carousel-slide" onclick="openDetail(${v.id})">
-        <div class="carousel-tags">
-          ${cat ? `<span class="tag tag-cat">${cat.name}</span>` : ''}
-          <span class="tag tag-district">📍 ${v.district}</span>
-          <span class="tag tag-free">🆓 免费</span>
-          ${v.indoor ? '<span class="tag tag-indoor">🏠 室内</span>' : '<span class="tag tag-outdoor">🌳 户外</span>'}
-          <span class="tag tag-age">👶 ${ageText}</span>
-        </div>
-        <div class="carousel-title">${v.name}</div>
-        ${v.desc ? `<div class="carousel-desc">${v.desc}</div>` : ''}
-        ${v.address ? `<div class="carousel-district">📍 ${v.address}</div>` : ''}
-      </div>`;
-  }).join('');
-
-  const dotsHtml = venues.map((_, i) =>
-    `<span class="venue-carousel-dot${i === 0 ? ' active' : ''}" onclick="goToCarouselSlide(${i})"></span>`
-  ).join('');
-
-  document.getElementById('selectedDateCards').innerHTML = `
-    <div class="venue-carousel" style="grid-column:1/-1">
-      <div class="venue-carousel-track" id="carouselTrack">${slidesHtml}</div>
-      <div class="venue-carousel-controls">
-        <button class="venue-carousel-arrow" onclick="prevCarouselSlide()">◀</button>
-        <div class="venue-carousel-dots" id="carouselDots">${dotsHtml}</div>
-        <button class="venue-carousel-arrow" onclick="nextCarouselSlide()">▶</button>
-      </div>
-    </div>`;
-
-  // Auto-rotate
-  carouselTimer = setInterval(() => {
-    nextCarouselSlide();
-  }, 4000);
-}
-
-function updateCarousel() {
-  const track = document.getElementById('carouselTrack');
-  const dots = document.getElementById('carouselDots');
-  if (!track || !dots) return;
-  track.style.transform = `translateX(-${carouselIndex * 100}%)`;
-  const dotEls = dots.querySelectorAll('.venue-carousel-dot');
-  dotEls.forEach((d, i) => d.classList.toggle('active', i === carouselIndex));
-}
-
-function nextCarouselSlide() {
-  const track = document.getElementById('carouselTrack');
-  if (!track) return;
-  const total = track.children.length;
-  carouselIndex = (carouselIndex + 1) % total;
-  updateCarousel();
-}
-
-function prevCarouselSlide() {
-  const track = document.getElementById('carouselTrack');
-  if (!track) return;
-  const total = track.children.length;
-  carouselIndex = (carouselIndex - 1 + total) % total;
-  updateCarousel();
-}
-
-function goToCarouselSlide(i) {
-  carouselIndex = i;
-  updateCarousel();
-  // Reset auto-rotation timer
-  if (carouselTimer) clearInterval(carouselTimer);
-  carouselTimer = setInterval(() => { nextCarouselSlide(); }, 4000);
-}
-
-function renderEventCard(e) {
-  const cat = CATEGORIES[e.venue.category];
-  return `
-    <div class="event-card" onclick="openDetail(${e.venue.id})">
-      <div class="card-top">
-        <div class="card-title">${e.venue.name}</div>
-      </div>
-      <div class="card-tags">
-        <span class="tag tag-event">📅 ${e.title}</span>
-        ${cat ? `<span class="tag tag-cat">${cat.name}</span>` : ''}
-        <span class="tag tag-district">📍 ${e.venue.district}</span>
-        ${e.venue.free ? '<span class="tag tag-free">🆓 免费</span>' : '<span class="tag tag-paid">🎫 收费</span>'}
-        ${e.venue.indoor ? '<span class="tag tag-indoor">🏠 室内</span>' : '<span class="tag tag-outdoor">🌳 户外</span>'}
-      </div>
-      ${e.desc ? `<div class="card-desc">${e.desc}</div>` : ''}
-    </div>`;
+  let html = '';
+  for (const v of venues) {
+    html += renderVenueCard(v);
+  }
+  masonryGrid.innerHTML = html;
+  // Attach hover events
+  masonryGrid.querySelectorAll('.venue-card').forEach(card => {
+    const vid = parseInt(card.dataset.vid);
+    card.addEventListener('mouseenter', (e) => showHoverPreview(vid, e));
+    card.addEventListener('mouseleave', () => hideHoverPreview());
+    // Add button
+    const addBtn = card.querySelector('.card-add-btn');
+    if (addBtn) {
+      addBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleItineraryAdd(vid);
+      });
+    }
+  });
 }
 
 function renderVenueCard(v) {
-  const cat = CATEGORIES[v.category];
-  return `
-    <div class="event-card" onclick="openDetail(${v.id})">
-      <div class="card-top">
-        <div class="card-title">${v.name}</div>
-      </div>
-      <div class="card-tags">
-        ${cat ? `<span class="tag tag-cat">${cat.name}</span>` : ''}
-        <span class="tag tag-district">📍 ${v.district}</span>
-        ${v.free ? '<span class="tag tag-free">🆓 免费</span>' : '<span class="tag tag-paid">🎫 收费</span>'}
-        ${v.indoor ? '<span class="tag tag-indoor">🏠 室内</span>' : '<span class="tag tag-outdoor">🌳 户外</span>'}
-      </div>
-      <div class="card-meta">🎫 ${v.ticket}</div>
-      <div class="card-desc">${v.desc.substring(0, 100)}...</div>
-      ${v.events.length > 0 ? `
-        <div style="margin-top:8px">
-          ${v.events.slice(0,2).map(ev => `
-            <div class="event-row">
-              <span class="event-date">${ev.date.slice(5)}</span>
-              <span class="event-info"><strong>${ev.title}</strong>${ev.desc}</span>
-            </div>
-          `).join('')}
-        </div>
-      ` : ''}
-    </div>`;
+  const cat = CATEGORIES[v.category] || { name: '其他', color: '#999' };
+  const inItin = state.itinerary.includes(v.id);
+  let tagsHtml = '';
+  tagsHtml += '<span class="tag tag-cat" style="background:' + cat.color + '20;color:' + cat.color + '90">' + cat.name + '</span>';
+  tagsHtml += '<span class="tag tag-district">' + v.district + '</span>';
+  if (v.free) tagsHtml += '<span class="tag tag-free">免费</span>';
+  else if (v.ticket) tagsHtml += '<span class="tag tag-paid">付费</span>';
+  tagsHtml += '<span class="tag tag-' + (v.indoor ? 'indoor' : 'outdoor') + '">' + (v.indoor ? '室内' : '户外') + '</span>';
+
+  // Feature tags (show up to 3)
+  const vTags = getVenueTags(v);
+  const tagNames = [];
+  for (const t of vTags) {
+    const ft = FEATURE_TAGS.find(f => f.id === t);
+    if (ft) tagNames.push(ft);
+  }
+  const shownTags = tagNames.slice(0, 3);
+  for (const ft of shownTags) {
+    tagsHtml += '<span class="tag tag-feature">' + ft.icon + ' ' + ft.name + '</span>';
+  }
+
+  // Events (show up to 2)
+  let eventsHtml = '';
+  if (v.events && v.events.length > 0) {
+    eventsHtml = '<div class="card-events">';
+    const shown = v.events.slice(0, 2);
+    for (const ev of shown) {
+      eventsHtml += '<div class="card-event-row"><span class="ev-date">' + ev.date.slice(5) + '</span><span class="ev-title">' + ev.title + '</span></div>';
+    }
+    if (v.events.length > 2) {
+      eventsHtml += '<div class="card-event-row" style="justify-content:center;color:var(--text-muted)">+' + (v.events.length - 2) + '场活动</div>';
+    }
+    eventsHtml += '</div>';
+  }
+
+  // Review badge
+  let reviewBadge = '';
+  const reviews = VENUE_HONEST_REVIEWS[v.id];
+  if (reviews) {
+    const goodCount = reviews.filter(r => r.rating === 'good').length;
+    const badCount = reviews.filter(r => r.rating === 'bad').length;
+    if (goodCount > badCount) {
+      reviewBadge = '<div class="card-review-badge good">👍 老母亲推荐</div>';
+    } else if (badCount > 0 && badCount >= goodCount) {
+      reviewBadge = '<div class="card-review-badge bad">⚠️ 有避坑提醒</div>';
+    } else {
+      reviewBadge = '<div class="card-review-badge mixed">🤔 褒贬不一</div>';
+    }
+  }
+
+  return '<div class="venue-card" data-vid="' + v.id + '" onclick="openModal(' + v.id + ')">' +
+    '<div class="card-add-btn ' + (inItin ? 'in-itinerary' : '') + '" title="' + (inItin ? '从路线移除' : '加入路线') + '">' + (inItin ? '✓' : '+') + '</div>' +
+    '<div class="card-title">' + v.name + '</div>' +
+    '<div class="card-tags">' + tagsHtml + '</div>' +
+    '<div class="card-desc">' + (v.desc || '') + '</div>' +
+    eventsHtml +
+    reviewBadge +
+    '</div>';
 }
 
-// ==================== LIST VIEW ====================
-function renderListView() {
-  const filtered = getFilteredVenues();
-  document.getElementById('listCount').textContent = `— ${filtered.length} 个场馆`;
-  document.getElementById('listCards').innerHTML = filtered.length === 0
-    ? `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>没有找到匹配的场馆，试试调整筛选条件</p></div>`
-    : filtered.map(v => renderVenueCard(v)).join('');
+// ==================== HOVER PREVIEW ====================
+let hoverTimer = null;
+function showHoverPreview(vid, e) {
+  clearTimeout(hoverTimer);
+  hoverTimer = setTimeout(() => {
+    const v = VENUES.find(x => x.id === vid);
+    if (!v) return;
+    const cat = CATEGORIES[v.category] || { name: '其他' };
+    const ages = (v.ageRange || []).map(ar => {
+      const a = AGE_RANGES.find(r => r.id === ar);
+      return a ? a.name : ar;
+    }).join(', ');
+
+    // Feature highlights
+    const vTags = getVenueTags(v);
+    let features = [];
+    for (const t of vTags) {
+      const ft = FEATURE_TAGS.find(f => f.id === t);
+      if (ft) features.push(ft.icon + ' ' + ft.name);
+    }
+
+    // Review summary
+    let reviewText = '';
+    const reviews = VENUE_HONEST_REVIEWS[v.id];
+    if (reviews && reviews.length > 0) {
+      reviewText = reviews[0].text.substring(0, 80);
+      if (reviews[0].text.length > 80) reviewText += '...';
+    }
+
+    hoverPreview.innerHTML =
+      '<div class="hp-name">' + v.name + '</div>' +
+      '<div class="hp-row"><span class="hp-label">适龄段</span>' + (ages || '全年龄') + '</div>' +
+      '<div class="hp-row"><span class="hp-label">门票</span>' + (v.free ? '免费' : (v.ticket || '未知')) + '</div>' +
+      '<div class="hp-row"><span class="hp-label">交通</span>' + (v.transport || '未知') + '</div>' +
+      (features.length > 0 ? '<div class="hp-feature" style="margin-top:6px">' + features.slice(0, 4).join('  ') + '</div>' : '') +
+      (reviewText ? '<div style="margin-top:6px;font-size:11px;color:var(--text-muted);font-style:italic;line-height:1.4">"' + reviewText + '"</div>' : '');
+
+    // Position
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = rect.right + 10;
+    const py = rect.top;
+    const pw = 280;
+    const ph = hoverPreview.offsetHeight || 200;
+    let left = px;
+    let top = py;
+    if (left + pw > window.innerWidth - 10) left = rect.left - pw - 10;
+    if (top + ph > window.innerHeight - 10) top = window.innerHeight - ph - 10;
+    if (top < 10) top = 10;
+    hoverPreview.style.left = left + 'px';
+    hoverPreview.style.top = top + 'px';
+    hoverPreview.classList.add('show');
+  }, 200);
 }
 
-// ==================== VIEW SWITCH ====================
-function switchView(view) {
-  currentView = view;
-  document.getElementById('calendarView').style.display = view === 'calendar' ? 'block' : 'none';
-  document.getElementById('listView').style.display = view === 'list' ? 'block' : 'none';
-  document.getElementById('btnCalendar').classList.toggle('active', view === 'calendar');
-  document.getElementById('btnList').classList.toggle('active', view === 'list');
-  if (view === 'list') renderListView();
+function hideHoverPreview() {
+  clearTimeout(hoverTimer);
+  hoverPreview.classList.remove('show');
 }
 
-// ==================== MODAL ====================
-function openDetail(venueId) {
-  const v = VENUES.find(x => x.id === venueId);
-  if (!v) return;
-  const cat = CATEGORIES[v.category];
-  
-  const html = `
-    <div class="modal-overlay" onclick="closeModal(event)">
-      <div class="modal" onclick="event.stopPropagation()">
-        <button class="close-btn" onclick="document.getElementById('modalContainer').innerHTML=''">✕</button>
-        <h2>${v.name}</h2>
-        <div class="card-tags" style="margin-bottom:16px">
-          ${cat ? `<span class="tag tag-cat">${cat.name}</span>` : ''}
-          <span class="tag tag-district">📍 ${v.district}</span>
-          ${v.free ? '<span class="tag tag-free">🆓 免费</span>' : '<span class="tag tag-paid">🎫 收费</span>'}
-          ${v.indoor ? '<span class="tag tag-indoor">🏠 室内</span>' : '<span class="tag tag-outdoor">🌳 户外</span>'}
-          ${v.ageRange.map(a => `<span class="tag tag-age">👶 ${AGE_RANGES.find(ar=>ar.id===a)?.name||a}</span>`).join('')}
-        </div>
-        
-        <div class="detail-section">
-          <div class="detail-label">📝 简介</div>
-          <div class="detail-value">${v.desc}</div>
-        </div>
-        
-        <div class="detail-section">
-          <div class="detail-label">🎫 票价</div>
-          <div class="detail-value">${v.ticket}</div>
-        </div>
-        
-        <div class="detail-section">
-          <div class="detail-label">📍 地址</div>
-          <div class="detail-value">${v.address}</div>
-        </div>
-        
-        <div class="detail-section">
-          <div class="detail-label">🚇 交通</div>
-          <div class="detail-value">${v.transport}</div>
-        </div>
-        
-        ${v.events.length > 0 ? `
-          <div class="detail-section">
-            <div class="detail-label">📅 近期活动</div>
-            ${v.events.map(e => `
-              <div class="event-row">
-                <span class="event-date">${e.date.slice(5)}</span>
-                <span class="event-info"><strong>${e.title}</strong>${e.desc}</span>
-              </div>
-            `).join('')}
-          </div>
-        ` : ''}
-      </div>
-    </div>
-  `;
-  
-  document.getElementById('modalContainer').innerHTML = html;
+// ==================== ITINERARY ====================
+function toggleItineraryAdd(vid) {
+  const idx = state.itinerary.indexOf(vid);
+  if (idx >= 0) {
+    state.itinerary.splice(idx, 1);
+  } else {
+    state.itinerary.push(vid);
+  }
+  updateItineraryUI();
+  applyFilters(); // re-render to update button states
 }
 
-function closeModal(e) {
-  if (e.target.classList.contains('modal-overlay')) {
-    document.getElementById('modalContainer').innerHTML = '';
+function removeFromItinerary(vid) {
+  const idx = state.itinerary.indexOf(vid);
+  if (idx >= 0) state.itinerary.splice(idx, 1);
+  updateItineraryUI();
+  applyFilters();
+}
+
+function clearItinerary() {
+  state.itinerary = [];
+  updateItineraryUI();
+  applyFilters();
+}
+
+function toggleItinerary() {
+  $('itineraryPanel').classList.toggle('open');
+}
+
+function updateItineraryUI() {
+  const count = state.itinerary.length;
+  $('itinCountBadge').textContent = count;
+
+  const body = $('itinBody');
+  const route = $('itinRoute');
+
+  if (count === 0) {
+    body.innerHTML = '<div class="itin-empty">点击场馆卡片上的 + 号添加到路线</div>';
+    route.style.display = 'none';
+    return;
+  }
+
+  // Auto-sort: downtown first, then near, then far
+  const sorted = [...state.itinerary].sort((a, b) => {
+    const va = VENUES.find(v => v.id === a);
+    const vb = VENUES.find(v => v.id === b);
+    if (!va || !vb) return 0;
+    const ra = DISTRICT_REGIONS.findIndex(r => r.districts.includes(va.district));
+    const rb = DISTRICT_REGIONS.findIndex(r => r.districts.includes(vb.district));
+    return ra - rb;
+  });
+
+  let html = '';
+  sorted.forEach((vid, i) => {
+    const v = VENUES.find(x => x.id === vid);
+    if (!v) return;
+    html += '<div class="itin-item">' +
+      '<div class="itin-order">' + (i + 1) + '</div>' +
+      '<div class="itin-venue-info">' +
+        '<div class="itin-venue-name">' + v.name + '</div>' +
+        '<div class="itin-venue-meta">' + v.district + ' · ' + (v.free ? '免费' : (v.ticket || '')) + '</div>' +
+      '</div>' +
+      '<button class="itin-remove" onclick="removeFromItinerary(' + vid + ')">✕</button>' +
+    '</div>';
+  });
+  body.innerHTML = html;
+
+  // Generate route timeline
+  if (count >= 2) {
+    const timeSlots = ['上午 9:00', '中午 12:00', '下午 14:00', '下午 16:00', '傍晚 18:00'];
+    let routeHtml = '<div class="itin-route-label">🗺️ 推荐动线</div><div class="itin-timeline">';
+    sorted.forEach((vid, i) => {
+      const v = VENUES.find(x => x.id === vid);
+      if (!v) return;
+      const slot = timeSlots[i] || ('第' + (i+1) + '站');
+      routeHtml += '<div class="itin-timeline-row"><span class="itin-time-slot">' + slot + '</span><span class="itin-time-venue">' + v.name + '</span></div>';
+      if (i < sorted.length - 1) {
+        const next = VENUES.find(x => x.id === sorted[i+1]);
+        if (next) {
+          const sameDist = v.district === next.district;
+          routeHtml += '<div class="itin-timeline-row" style="padding-left:68px;color:var(--text-muted);font-size:10px">↓ ' + (sameDist ? '同区域，约15分钟' : '跨区，约30-45分钟') + '</div>';
+        }
+      }
+    });
+    routeHtml += '</div>';
+
+    // Total travel time estimate
+    let crossCount = 0;
+    for (let i = 0; i < sorted.length - 1; i++) {
+      const va = VENUES.find(v => v.id === sorted[i]);
+      const vb = VENUES.find(v => v.id === sorted[i+1]);
+      if (va && vb && va.district !== vb.district) crossCount++;
+    }
+    const totalTime = crossCount * 35 + (sorted.length - 1 - crossCount) * 15;
+    routeHtml += '<div style="margin-top:6px;font-size:11px;color:var(--accent)">🚗 预计总车程约 ' + totalTime + ' 分钟</div>';
+
+    route.innerHTML = routeHtml;
+    route.style.display = 'block';
+  } else {
+    route.style.display = 'none';
   }
 }
 
-// Esc key to close modal
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') document.getElementById('modalContainer').innerHTML = '';
-});
+function copyItinerary() {
+  if (state.itinerary.length === 0) return;
+  const sorted = [...state.itinerary].sort((a, b) => {
+    const va = VENUES.find(v => v.id === a);
+    const vb = VENUES.find(v => v.id === b);
+    if (!va || !vb) return 0;
+    const ra = DISTRICT_REGIONS.findIndex(r => r.districts.includes(va.district));
+    const rb = DISTRICT_REGIONS.findIndex(r => r.districts.includes(vb.district));
+    return ra - rb;
+  });
 
-// ==================== STARTUP ====================
-let showAllVenues = false;
+  const timeSlots = ['上午', '中午', '下午', '傍晚', '晚上'];
+  let text = '🗺️ 今日遛娃路线\n\n';
+  sorted.forEach((vid, i) => {
+    const v = VENUES.find(x => x.id === vid);
+    if (!v) return;
+    const slot = timeSlots[i] || ('第' + (i+1) + '站');
+    text += slot + ': ' + v.name + '\n';
+    text += '  📍 ' + v.address + '\n';
+    text += '  🎫 ' + (v.free ? '免费' : v.ticket) + '\n';
+    text += '  🚇 ' + v.transport + '\n';
+    if (i < sorted.length - 1) text += '\n';
+  });
+  text += '\n—— 由遛娃小脚印生成';
+
+  copyText(text, $('itineraryPanel').querySelector('.itin-copy-btn'));
+}
+
+// ==================== COPY UTILITY ====================
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    if (btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✅ 已复制';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✅ 已复制';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+  });
+}
+
+// ==================== MODAL ====================
+function openModal(vid) {
+  const v = VENUES.find(x => x.id === vid);
+  if (!v) return;
+  const cat = CATEGORIES[v.category] || { name: '其他', color: '#999' };
+  const ages = (v.ageRange || []).map(ar => {
+    const a = AGE_RANGES.find(r => r.id === ar);
+    return a ? a.name : ar;
+  }).join(', ');
+
+  // Feature tags
+  const vTags = getVenueTags(v);
+  let featuresHtml = '';
+  for (const t of vTags) {
+    const ft = FEATURE_TAGS.find(f => f.id === t);
+    if (ft) featuresHtml += '<span class="tag tag-feature">' + ft.icon + ' ' + ft.name + '</span>';
+  }
+
+  // Events
+  let eventsHtml = '';
+  if (v.events && v.events.length > 0) {
+    eventsHtml = '<div class="detail-section"><div class="detail-label">📅 近期活动</div>';
+    for (const ev of v.events) {
+      eventsHtml += '<div class="event-row"><span class="event-date">' + ev.date + '</span><div class="event-info"><strong>' + ev.title + '</strong>' + (ev.desc || '') + '</div></div>';
+    }
+    eventsHtml += '</div>';
+  }
+
+  // Honest reviews
+  let reviewsHtml = '';
+  const reviews = VENUE_HONEST_REVIEWS[v.id];
+  if (reviews && reviews.length > 0) {
+    reviewsHtml = '<div class="review-section"><div class="review-title">💬 老母亲真实点评</div>';
+    for (const r of reviews) {
+      const stars = r.rating === 'good' ? '👍' : r.rating === 'bad' ? '👎' : '🤔';
+      const ratingClass = r.rating === 'good' ? 'review-pro' : r.rating === 'bad' ? 'review-con' : '';
+      reviewsHtml += '<div class="review-card">' +
+        '<div class="review-header"><span class="review-rating">' + stars + '</span><span class="review-author">@' + r.author + '</span></div>' +
+        '<div class="review-text ' + ratingClass + '">' + r.text + '</div>' +
+      '</div>';
+    }
+    reviewsHtml += '</div>';
+  }
+
+  const inItin = state.itinerary.includes(v.id);
+
+  const html =
+    '<div class="modal-overlay" onclick="closeModal(event)">' +
+      '<div class="modal" onclick="event.stopPropagation()">' +
+        '<button class="close-btn" onclick="closeModal()">✕</button>' +
+        '<h2>' + v.name + '</h2>' +
+        '<div class="card-tags" style="margin-bottom:10px">' +
+          '<span class="tag tag-cat" style="background:' + cat.color + '20;color:' + cat.color + '90">' + cat.name + '</span>' +
+          '<span class="tag tag-district">' + v.district + '</span>' +
+          (v.free ? '<span class="tag tag-free">免费</span>' : '<span class="tag tag-paid">付费</span>') +
+          '<span class="tag tag-' + (v.indoor ? 'indoor' : 'outdoor') + '">' + (v.indoor ? '室内' : '户外') + '</span>' +
+          (featuresHtml ? featuresHtml : '') +
+        '</div>' +
+        '<div class="detail-section"><div class="detail-label">📝 简介</div><div class="detail-value">' + (v.desc || '') + '</div></div>' +
+        '<div class="detail-section"><div class="detail-label">👶 适龄</div><div class="detail-value">' + (ages || '全年龄') + '</div></div>' +
+        '<div class="detail-section"><div class="detail-label">🎫 门票</div><div class="detail-value">' + (v.free ? '免费' : (v.ticket || '未知')) + '</div></div>' +
+        '<div class="detail-section"><div class="detail-label">📍 地址</div><div class="detail-value">' + (v.address || '') + '</div></div>' +
+        '<div class="detail-section"><div class="detail-label">🚇 交通</div><div class="detail-value">' + (v.transport || '') + '</div></div>' +
+        eventsHtml +
+        reviewsHtml +
+        '<div class="copy-btn-row">' +
+          '<button class="copy-btn" onclick="copyVenueInfo(' + v.id + ', \'address\', this)">📋 复制地址</button>' +
+          '<button class="copy-btn" onclick="copyVenueInfo(' + v.id + ', \'ticket\', this)">🎫 复制票价</button>' +
+          '<button class="copy-btn" onclick="copyVenueInfo(' + v.id + ', \'transport\', this)">🚇 复制交通</button>' +
+          '<button class="copy-btn" onclick="copyVenueInfo(' + v.id + ', \'all\', this)">📋 复制全部</button>' +
+        '</div>' +
+        '<div style="margin-top:14px;display:flex;gap:8px">' +
+          '<button class="itinerary-copy-btn" style="flex:1" onclick="toggleItineraryAdd(' + v.id + ');closeModal()">' + (inItin ? '✓ 已在路线中' : '+ 加入路线') + '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  $('modalContainer').innerHTML = html;
+}
+
+function closeModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  $('modalContainer').innerHTML = '';
+}
+
+function copyVenueInfo(vid, type, btn) {
+  const v = VENUES.find(x => x.id === vid);
+  if (!v) return;
+  let text = '';
+  if (type === 'address') {
+    text = v.name + '\n地址: ' + v.address;
+  } else if (type === 'ticket') {
+    text = v.name + '\n门票: ' + (v.free ? '免费' : v.ticket);
+  } else if (type === 'transport') {
+    text = v.name + '\n交通: ' + v.transport;
+  } else {
+    text = v.name + '\n地址: ' + v.address + '\n门票: ' + (v.free ? '免费' : v.ticket) + '\n交通: ' + v.transport;
+    if (v.events && v.events.length > 0) {
+      text += '\n\n近期活动:';
+      for (const ev of v.events) {
+        text += '\n' + ev.date + ' ' + ev.title;
+      }
+    }
+  }
+  copyText(text, btn);
+}
+
+// ==================== INIT ====================
+function init() {
+  initDate();
+  renderSidebar();
+  initAgeSlider();
+  fetchWeather();
+  applyFilters();
+  updateStats();
+}
+
 init();
 </script>
-<script>window.__WEATHER_DATA__={"latitude":31.247803,"longitude":121.5,"generationtime_ms":0.327,"utc_offset_seconds":28800,"timezone":"Asia/Shanghai","timezone_abbreviation":"GMT+8","elevation":3,"current_weather_units":{"time":"iso8601","interval":"seconds","temperature":"°C","windspeed":"km/h","winddirection":"°","is_day":"","weathercode":"wmo code"},"current_weather":{"time":"2026-07-10T16:00","interval":900,"temperature":31.5,"windspeed":15.3,"winddirection":135,"is_day":1,"weathercode":1},"hourly_units":{"time":"iso8601","temperature_2m":"°C","relativehumidity_2m":"%","precipitation_probability":"%","weathercode":"wmo code","windspeed_10m":"km/h"},"hourly":{"time":["2026-07-10T00:00","2026-07-10T01:00","2026-07-10T02:00","2026-07-10T03:00","2026-07-10T04:00","2026-07-10T05:00","2026-07-10T06:00","2026-07-10T07:00","2026-07-10T08:00","2026-07-10T09:00","2026-07-10T10:00","2026-07-10T11:00","2026-07-10T12:00","2026-07-10T13:00","2026-07-10T14:00","2026-07-10T15:00","2026-07-10T16:00","2026-07-10T17:00","2026-07-10T18:00","2026-07-10T19:00","2026-07-10T20:00","2026-07-10T21:00","2026-07-10T22:00","2026-07-10T23:00","2026-07-11T00:00","2026-07-11T01:00","2026-07-11T02:00","2026-07-11T03:00","2026-07-11T04:00","2026-07-11T05:00","2026-07-11T06:00","2026-07-11T07:00","2026-07-11T08:00","2026-07-11T09:00","2026-07-11T10:00","2026-07-11T11:00","2026-07-11T12:00","2026-07-11T13:00","2026-07-11T14:00","2026-07-11T15:00","2026-07-11T16:00","2026-07-11T17:00","2026-07-11T18:00","2026-07-11T19:00","2026-07-11T20:00","2026-07-11T21:00","2026-07-11T22:00","2026-07-11T23:00"],"temperature_2m":[26.2,26,26.3,25.9,25.6,25.6,26.3,27.9,29.2,30.2,31.1,32.1,32.7,32.5,32.2,31.8,31.5,30.6,29.5,28.2,27.4,27.2,27.1,27,27,27,26.8,26.7,26.9,26.9,27.3,28.2,29.9,30.9,31.5,31.6,31.8,32,32,31.5,31,30.4,29.2,29.2,28.9,28.6,28.3,28.3],"relativehumidity_2m":[91,93,93,94,95,94,92,85,76,71,67,62,59,60,61,61,62,66,75,82,87,87,87,88,88,89,90,92,90,89,86,83,74,70,68,69,69,68,67,68,70,72,78,76,78,81,80,82],"precipitation_probability":[7,4,2,1,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,2,8,16,24,32,40,45,45,42,39,35,30,29,34,42,49],"weathercode":[2,1,0,0,1,2,0,1,2,2,2,2,3,1,2,3,1,0,0,0,0,0,1,3,3,3,3,3,3,3,3,1,0,1,1,1,1,0,1,0,0,3,3,3,3,3,51,3],"windspeed_10m":[13.4,12.6,11.7,10.7,11.1,11.8,10.1,9.8,13,12.8,11.8,12.1,14.3,15.1,14.5,14.2,15.3,14.8,12.6,11.6,10.9,12.7,13,12.2,10.7,9.8,10,11.7,11.7,12.6,13.7,12.5,16.6,19.6,23.8,23.6,22.6,22.7,22.9,25.5,22.9,24.3,21.8,29.1,29.8,29,29.9,27.5]}};</script>
 </body>
 </html>
