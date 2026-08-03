@@ -245,6 +245,16 @@ body {
   font-family: var(--font); transition: var(--transition);
 }
 .sort-btn:hover { background: var(--bg-hover); }
+.sort-btn.active { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+.locate-btn {
+  background: var(--bg-cream); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-size: 12px; color: var(--text-sec); cursor: pointer;
+  font-family: var(--font); transition: var(--transition); display: inline-flex; align-items: center; gap: 4px;
+}
+.locate-btn:hover { background: var(--bg-hover); }
+.locate-btn.active { background: rgba(91,173,196,0.12); color: var(--teal); border-color: var(--teal); }
+.locate-btn.locating { opacity: 0.7; cursor: wait; }
 
 /* Masonry layout */
 .masonry {
@@ -295,6 +305,7 @@ body {
 .tag-review-good { background: rgba(109,184,143,0.15); color: #3DA068; }
 .tag-review-bad { background: rgba(212,96,106,0.15); color: #C04050; }
 .tag-feature { background: rgba(139,168,136,0.10); color: #6A9060; font-size: 10px; }
+.tag-distance { background: rgba(91,173,196,0.12); color: #3A98B8; }
 
 .card-desc {
   font-size: 12px; color: var(--text-sec); line-height: 1.5;
@@ -444,6 +455,39 @@ body {
 .copy-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
 .copy-btn.copied { background: rgba(109,184,143,0.15); border-color: var(--green); color: var(--green); }
 
+.nav-btn, .share-btn-modal {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--accent); border: 1px solid var(--accent); border-radius: var(--radius-sm);
+  padding: 6px 10px; font-size: 12px; color: #fff; cursor: pointer;
+  transition: var(--transition); font-family: var(--font);
+}
+.nav-btn:hover { background: #B06848; }
+.share-btn-modal:hover { background: #B06848; }
+
+.nav-picker-overlay {
+  position: fixed; inset: 0; background: rgba(61,48,36,0.30); z-index: 110;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-picker {
+  background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border);
+  padding: 18px; width: 92%; max-width: 320px; box-shadow: var(--shadow-md);
+}
+.nav-picker h4 { font-size: 14px; margin-bottom: 12px; }
+.nav-picker .nav-option {
+  display: block; width: 100%; text-align: left;
+  background: var(--bg-cream); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 12px; margin-bottom: 8px; font-size: 13px; cursor: pointer;
+  font-family: var(--font); color: var(--text);
+}
+.nav-picker .nav-option:hover { border-color: var(--accent); background: var(--accent-light); }
+.nav-picker .nav-cancel {
+  display: block; width: 100%;
+  background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 12px; margin-top: 6px; font-size: 13px; cursor: pointer;
+  font-family: var(--font); color: var(--text-sec);
+}
+.nav-picker .nav-cancel:hover { background: var(--bg-hover); }
+
 .event-row {
   display: flex; gap: 8px; padding: 8px 10px;
   background: var(--bg-cream); border-radius: var(--radius-sm); margin-bottom: 6px;
@@ -506,6 +550,9 @@ body {
       <div class="header-weather" id="headerWeather" title="上海实时天气">
         <span class="hw-icon">🌤️</span><span class="hw-temp">--°</span>
       </div>
+      <button class="locate-btn" id="locateBtn" onclick="requestUserLocation()" title="获取当前位置">
+        📍 定位
+      </button>
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="搜索场馆、活动、区域..." oninput="applyFilters()">
@@ -584,7 +631,8 @@ body {
       <div style="display:flex;gap:6px">
         <button class="sort-btn" onclick="sortVenues('event')" id="sortEvent">🔥 有活动优先</button>
         <button class="sort-btn" onclick="sortVenues('free')" id="sortFree">🆓 免费优先</button>
-        <button class="sort-btn" onclick="sortVenues('near')" id="sortNear">📍 市中心优先</button>
+        <button class="sort-btn" onclick="sortVenues('near')" id="sortNear">🏙️ 市中心优先</button>
+        <button class="sort-btn" onclick="sortVenues('distance')" id="sortDistance">📍 附近优先</button>
       </div>
     </div>
     <div class="masonry" id="masonryGrid"></div>
@@ -7073,6 +7121,8 @@ const state = {
   featureTags: new Set(),
   itinerary: [],
   sortBy: null,
+  userLocation: null,
+  locationError: '',
 };
 
 // DOM refs
@@ -7225,6 +7275,126 @@ function initAgeSlider() {
   thumbMax.addEventListener('touchstart', (e) => { e.preventDefault(); startDrag(thumbMax, false); }, { passive: false });
 
   updateSlider();
+}
+
+// ==================== LOCATION & DISTANCE ====================
+function toRad(deg) { return (deg * Math.PI) / 180; }
+
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+}
+
+function formatDistance(km) {
+  if (km == null || isNaN(km)) return '';
+  if (km < 1) return Math.round(km * 1000) + 'm';
+  return km.toFixed(1) + 'km';
+}
+
+function getVenueDistance(venue) {
+  if (!state.userLocation || !venue.coords || venue.coords.length < 2) return null;
+  return distanceKm(state.userLocation.latitude, state.userLocation.longitude, venue.coords[0], venue.coords[1]);
+}
+
+function requestUserLocation() {
+  const btn = $('locateBtn');
+  if (!navigator.geolocation) {
+    state.locationError = '浏览器不支持定位';
+    btn.textContent = '📍 定位失败';
+    return;
+  }
+  btn.classList.add('locating');
+  btn.textContent = '📍 定位中…';
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      state.userLocation = {
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+        accuracy: pos.coords.accuracy
+      };
+      state.locationError = '';
+      btn.classList.remove('locating');
+      btn.classList.add('active');
+      btn.textContent = '📍 已定位';
+      btn.title = '已获取当前位置：' + state.userLocation.latitude.toFixed(4) + ',' + state.userLocation.longitude.toFixed(4);
+      // 自动切换到附近优先排序
+      sortVenues('distance');
+    },
+    (err) => {
+      state.locationError = err.message || '定位失败';
+      btn.classList.remove('locating');
+      btn.textContent = '📍 定位失败';
+      console.error('Geolocation error:', err);
+      alert('无法获取当前位置，请检查浏览器定位权限。\n原因：' + state.locationError);
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+  );
+}
+
+function navigateToVenue(vid) {
+  const v = VENUES.find(x => x.id === vid);
+  if (!v) return;
+  if (!v.coords || v.coords.length < 2) {
+    copyText(v.name + '\n' + (v.address || ''), null);
+    alert('该场馆暂无坐标，已复制地址，可粘贴到地图App导航。');
+    return;
+  }
+  const lat = v.coords[0], lng = v.coords[1];
+  const name = encodeURIComponent(v.name);
+  const addr = encodeURIComponent(v.address || '');
+
+  // Build map URLs (driving mode preferred)
+  const urls = {
+    amap: 'https://uri.amap.com/navigation?to=' + lng + ',' + lat + ',' + name + '&mode=car&policy=1',
+    tencent: 'https://apis.map.qq.com/uri/v1/routeplan?type=drive&from=我的位置&fromcoord=LAT,LNG&to=' + name + '&tocoord=' + lat + ',' + lng + '&policy=0',
+    baidu: 'https://api.map.baidu.com/direction?origin=latlng:' + (state.userLocation ? state.userLocation.latitude + ',' + state.userLocation.longitude : '我的位置') + '|name:我的位置&destination=latlng:' + lat + ',' + lng + '|name:' + name + '&mode=driving&region=' + encodeURIComponent('上海') + '&output=html'
+  };
+
+  const html =
+    '<div class="nav-picker-overlay" onclick="closeNavPicker(event)">' +
+      '<div class="nav-picker" onclick="event.stopPropagation()">' +
+        '<h4>🚗 选择导航地图</h4>' +
+        '<a class="nav-option" href="' + urls.amap + '" target="_blank" rel="noopener">🗺️ 高德地图（驾车）</a>' +
+        '<a class="nav-option" href="' + urls.tencent.replace('LAT,LNG', state.userLocation ? state.userLocation.latitude + ',' + state.userLocation.longitude : '0,0') + '" target="_blank" rel="noopener">🗺️ 腾讯地图（驾车）</a>' +
+        '<a class="nav-option" href="' + urls.baidu + '" target="_blank" rel="noopener">🗺️ 百度地图（驾车）</a>' +
+        '<button class="nav-cancel" onclick="closeNavPicker()">取消</button>' +
+      '</div>' +
+    '</div>';
+  const picker = document.createElement('div');
+  picker.id = 'navPicker';
+  picker.innerHTML = html;
+  document.body.appendChild(picker);
+}
+
+function closeNavPicker(event) {
+  if (event && event.target !== event.currentTarget) return;
+  const picker = $('navPicker');
+  if (picker) picker.remove();
+}
+
+function shareVenue(vid) {
+  const v = VENUES.find(x => x.id === vid);
+  if (!v) return;
+  const text = '遛娃小脚印推荐：' + v.name + '\n' +
+    '📍 ' + (v.address || '') + '\n' +
+    '🎫 ' + (v.free ? '免费' : (v.ticket || '暂无票价')) + '\n' +
+    '👶 ' + ((v.ageRange || []).join(', ') || '全年龄') + '\n' +
+    '🚇 ' + (v.transport || '') + '\n' +
+    '\n来自：遛娃小脚印 · 上海亲子活动指南';
+
+  if (navigator.share) {
+    navigator.share({
+      title: '遛娃小脚印｜' + v.name,
+      text: text,
+      url: window.location.href.split('?')[0] + '?venue=' + vid
+    }).catch(() => {});
+  } else {
+    copyText(text, null);
+    alert('分享内容已复制到剪贴板，可直接粘贴发送。');
+  }
 }
 
 // ==================== VENUE TAGS ====================
@@ -7394,6 +7564,15 @@ function getFilteredVenues() {
       const bRegion = DISTRICT_REGIONS.findIndex(r => r.districts.includes(b.district));
       return aRegion - bRegion;
     });
+  } else if (state.sortBy === 'distance') {
+    results.sort((a, b) => {
+      const da = getVenueDistance(a);
+      const db = getVenueDistance(b);
+      if (da == null && db == null) return 0;
+      if (da == null) return 1;
+      if (db == null) return -1;
+      return da - db;
+    });
   }
 
   return results;
@@ -7413,14 +7592,12 @@ function sortVenues(sortBy) {
     state.sortBy = sortBy;
   }
   // Update button styles
-  ['sortEvent','sortFree','sortNear'].forEach(id => {
-    $(id).style.background = '';
-    $(id).style.color = '';
+  ['sortEvent','sortFree','sortNear','sortDistance'].forEach(id => {
+    $(id).classList.remove('active');
   });
   if (state.sortBy) {
-    const btnId = sortBy === 'event' ? 'sortEvent' : sortBy === 'free' ? 'sortFree' : 'sortNear';
-    $(btnId).style.background = 'var(--accent-light)';
-    $(btnId).style.color = 'var(--accent)';
+    const btnId = sortBy === 'event' ? 'sortEvent' : sortBy === 'free' ? 'sortFree' : sortBy === 'distance' ? 'sortDistance' : 'sortNear';
+    $(btnId).classList.add('active');
   }
   applyFilters();
 }
@@ -7474,6 +7651,12 @@ function renderVenueCard(v) {
   if (v.free) tagsHtml += '<span class="tag tag-free">免费</span>';
   else if (v.ticket) tagsHtml += '<span class="tag tag-paid">付费</span>';
   tagsHtml += '<span class="tag tag-' + (v.indoor ? 'indoor' : 'outdoor') + '">' + (v.indoor ? '室内' : '户外') + '</span>';
+
+  // Distance tag
+  const dist = getVenueDistance(v);
+  if (dist != null) {
+    tagsHtml += '<span class="tag tag-distance">📍 ' + formatDistance(dist) + '</span>';
+  }
 
   // Feature tags (show up to 3)
   const vTags = getVenueTags(v);
@@ -7793,6 +7976,8 @@ function openModal(vid) {
   }
 
   const inItin = state.itinerary.includes(v.id);
+  const dist = getVenueDistance(v);
+  const distHtml = dist != null ? '<span class="tag tag-distance">📍 距我 ' + formatDistance(dist) + '</span>' : '';
 
   const html =
     '<div class="modal-overlay" onclick="closeModal(event)">' +
@@ -7804,6 +7989,7 @@ function openModal(vid) {
           '<span class="tag tag-district">' + v.district + '</span>' +
           (v.free ? '<span class="tag tag-free">免费</span>' : '<span class="tag tag-paid">付费</span>') +
           '<span class="tag tag-' + (v.indoor ? 'indoor' : 'outdoor') + '">' + (v.indoor ? '室内' : '户外') + '</span>' +
+          distHtml +
           (featuresHtml ? featuresHtml : '') +
         '</div>' +
         '<div class="detail-section"><div class="detail-label">📝 简介</div><div class="detail-value">' + (v.desc || '') + '</div></div>' +
@@ -7819,7 +8005,11 @@ function openModal(vid) {
           '<button class="copy-btn" onclick="copyVenueInfo(' + v.id + ', \'transport\', this)">🚇 复制交通</button>' +
           '<button class="copy-btn" onclick="copyVenueInfo(' + v.id + ', \'all\', this)">📋 复制全部</button>' +
         '</div>' +
-        '<div style="margin-top:14px;display:flex;gap:8px">' +
+        '<div style="margin-top:10px;display:flex;gap:8px">' +
+          '<button class="nav-btn" style="flex:1" onclick="navigateToVenue(' + v.id + ')">🚗 导航去这里</button>' +
+          '<button class="share-btn-modal" style="flex:1" onclick="shareVenue(' + v.id + ')">↗️ 分享给朋友</button>' +
+        '</div>' +
+        '<div style="margin-top:10px;display:flex;gap:8px">' +
           '<button class="itinerary-copy-btn" style="flex:1" onclick="toggleItineraryAdd(' + v.id + ');closeModal()">' + (inItin ? '✓ 已在路线中' : '+ 加入路线') + '</button>' +
         '</div>' +
       '</div>' +
